@@ -1,18 +1,20 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:dio/dio.dart' as Dio;
 import 'package:fastrak2/Chash/cashHelper.dart';
-import 'package:fastrak2/Dio/Diohelper.dart';
-import 'package:fastrak2/Models/ApiLogin/checkuser.dart';
+import 'package:fastrak2/screens/Home.dart';
+import 'package:fastrak2/screens/Registar.dart';
 import 'package:fastrak2/screens/log%20in.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await CacheHelper.init();
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // await dio();
+  //  WidgetsFlutterBinding.ensureInitialized();
+   await CacheHelper.init();
 
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

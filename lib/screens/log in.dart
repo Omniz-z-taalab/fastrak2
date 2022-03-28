@@ -1,12 +1,18 @@
-
 import 'package:dio/dio.dart' as Dio;
 import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
-import 'package:fastrak2/Models/ApiLogin/checkuser.dart';
-import 'package:fastrak2/Models/Error.dart';
+import 'package:fastrak2/Models/Api/checkuser.dart';
+import 'package:fastrak2/Models/Api/Error.dart';
+import 'package:fastrak2/loading/loading.dart';
+import 'package:fastrak2/network/endpoint.dart';
+import 'package:fastrak2/screens/Home.dart';
+import 'package:fastrak2/screens/Registar.dart';
+import 'package:fastrak2/screens/password.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);
@@ -20,25 +26,52 @@ class _LoginState extends State<Login> {
 
   TextEditingController phone = TextEditingController();
   final _key = GlobalKey<FormState>();
+
   //3.126.221.243:8080
+  FocusNode myFocusNode = new FocusNode();
 
   Future<CheckUser> checkuser() async {
+    showProgress(context, 'Loading...', true);
     print('ddddddddd');
-    try{
+    try {
       print('woowwwwwww');
-    Dio.Response response = await dio().post( "http://3.126.221.243:8080/api/v1/user/auth/regular/check-user", data: {
-      "phone": phone.text,
-    });
-  }  catch(error) {
-      if (error.response != null) {
-        print(error.response.data);
-        print(error.error);
-        print('aaaaaaaaaa');
+      Dio.Response response = await dio().post(LOGIN, data: {
+        "phone": phone.text,
+      });
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        Data model = Data.fromJson(response.data['data']);
+        print('  wwww');
+        print('${model} + omniaa');
+        if (model.isExist == true) {
+          hideProgress();
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return Password("$countryName-${phone.text}");
+          }));
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return Registration(phone.text);
+          }));
+          print("error");
+        }
       } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        print(error.message);
-
-    }}}
+        print('omniaaaaaaaaaaa');
+      }
+    } catch (e) {
+      print('fffffffffffffff');
+      if (e.response != null) {
+        print(e.error);
+      } else {
+        print('gggggg');
+        Error errorr = Error.fromJson(e.response.data);
+        print(errorr.errors[0].message);
+        Fluttertoast.showToast(
+            msg: '${errorr.errors[0].message}',
+            textColor: Colors.white,
+            backgroundColor: Colors.red);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,36 +91,42 @@ class _LoginState extends State<Login> {
       body: SingleChildScrollView(
           //
           child: Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.only(top: 25.0, right: 25, left: 25),
         child: Container(
-            height: 700,
+            height: 670,
             width: 370,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF6B778D80).withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: Offset(0, 2),
+                    color: Color(0xFF6B778D80).withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                    offset: Offset(0, 1),
                   ),
                 ]),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Image.asset(
-                'images/group.png',
-                height: 350,
-                width: 250,
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0),
+                child: Image.asset(
+                  'images/group.png',
+                  height: 300,
+                  width: 250,
+                ),
               ),
               Text("SIGN IN",
                   style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold)),
+                      fontSize: 18.0,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500)),
               SizedBox(
-                width: 45.0,
-                height: 3.0,
+                height: 5,
+              ),
+              SizedBox(
+                width: 35.0,
+                height: 5.0,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -103,30 +142,39 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
+                      padding: const EdgeInsets.only(left: 15.0),
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: Text(
-                          'Phone Number',
-                          style: TextStyle(color: Color(0xFF6B778D)),
-                        ),
+                        child: Text('Mobile Number',
+                            style: TextStyle(
+                                color: Colors.grey.shade500, fontSize: 11)),
                       ),
                     ),
                     SizedBox(
                       height: 10,
+                      width: 50,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 15.0, left: 15),
                       child: TextFormField(
                         controller: phone,
+                        maxLines: 1,
                         keyboardType: TextInputType.number,
-                        decoration: new InputDecoration(
-                          hintText: " phone Number",
+                        decoration: InputDecoration(
+                          hintText: "phone Number",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          contentPadding: EdgeInsets.only(
+                              top: 3, bottom: 3, right: 5, left: 5),
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(10.0),
-                            borderSide:
-                                new BorderSide(color: Color(0xFF6B778D4D)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade500),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           prefixIcon: Container(
                             width: 60,
@@ -146,13 +194,15 @@ class _LoginState extends State<Login> {
                                     );
                                   },
                                   child: Container(
-                                    margin:
-                                        EdgeInsets.only(right: 10, left: 20),
+                                    margin: EdgeInsets.only(
+                                        right: 17, left: 15, top: 8),
                                     height: 20,
                                     child: Text(
-                                      '${countryName}',
+                                      '+${countryName}',
                                       style: TextStyle(
-                                          fontSize: 15, wordSpacing: 10),
+                                          fontSize: 12,
+                                          wordSpacing: 10,
+                                          color: Colors.grey.shade700),
                                     ),
                                   ),
                                 ),
@@ -162,9 +212,9 @@ class _LoginState extends State<Login> {
                                 //   size: 20,
                                 // ),
                                 Container(
-                                  color: Colors.black38,
+                                  color: Colors.grey.shade300,
                                   child: SizedBox(
-                                    width: 2.0,
+                                    width: 1.0,
                                     height: 25.0,
                                   ),
                                 ),
@@ -180,36 +230,45 @@ class _LoginState extends State<Login> {
                         ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "A Mobile number is required";
+                            return "required phone number";
                           }
                           if (value.length < 9) {
-                            return "Mobile number should be between 8 and 14 number";
+                            return "Mobile number should be between 8 and 10 numbers";
                           }
-                         return null;
-                          },
+                          return null;
+                        },
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Row(
                       children: [
+                        SizedBox(
+                          width: 15,
+                        ),
                         Expanded(
                             child: socialButton(
                                 "images/facebook.png", "Facebook")),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Expanded(
                             child: socialButton("images/google.png", "Google")),
+                        SizedBox(
+                          width: 15,
+                        ),
                       ],
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 15.0, left: 15),
                       child: InkWell(
                           child: Container(
                             width: 350,
-                            height: 55,
+                            height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Color(0xFF4B0082),
@@ -226,7 +285,46 @@ class _LoginState extends State<Login> {
                               checkuser();
                             } else {}
                           }),
-                    )
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      width: 320.0,
+                      height: 1.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(right: 15.0, left: 15),
+                        child: InkWell(
+                            child: Container(
+                              width: 350,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey.shade200,
+                              ),
+                              child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Continue As Guest',
+                                    style: TextStyle(color: Colors.black),
+                                  )),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Home()));
+                            })),
                   ],
                 ),
               )
@@ -236,36 +334,33 @@ class _LoginState extends State<Login> {
   }
 
   Widget socialButton(String image, String title) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 13.0, left: 13),
-      child: Container(
-          height: 45,
-          width: 80,
-          decoration: BoxDecoration(
-            color: Colors.white70,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey, width: 1),
-          ),
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  image,
-                  height: 20,
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontStyle: FontStyle.normal,
-                      color: Colors.black87),
-                ),
-              ])),
-    );
+    return Container(
+        height: 45,
+        width: 90,
+        decoration: BoxDecoration(
+          color: Colors.white70,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.shade500, width: 1),
+        ),
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                image,
+                height: 20,
+                width: 20,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 15,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.black87),
+              ),
+            ]));
   }
 }
