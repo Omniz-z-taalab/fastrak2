@@ -1,24 +1,43 @@
 import 'package:dio/dio.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
-Dio dio() {
-   String accessToken = CacheHelper.getData(key: 'token');
-  var headers = {
-    'accept': "application/json",
-    'content-type': "application/json",
-  };
-  if (accessToken != null) {
-     headers['Authorization'] = "Bearer $accessToken";
-  }
+import 'package:fastrak2/network/endpoint.dart';
+import 'package:flutter/material.dart';
 
-  var dio = new Dio(
-    BaseOptions(
-       baseUrl: 'http://18.159.227.78:8080/api',
+class DioHelper{
+
+  static Dio dio;
+  static init(){
+    var headers = {
+      'accept': "application/json",
+      'content-type': "application/json",
+    };
+    dio = Dio(
+      BaseOptions(
+        baseUrl: 'http://18.159.227.78:8080/api',
       headers: headers,
+      )
+    );
+  }
+  static Future<Response> getData({
+  @required String url,
+    @required Map<String, dynamic> query,
+}) async{
+    return await dio.get(url,queryParameters: query);
 
-    ),
+  }
+  static Future<Response> postData({
+    @required String url,
+     Map<String, dynamic> query,
+    @required Map<String, dynamic> data,
+    String token,
 
-  );
-  print(dio.options.headers.toString());
-  // print(dio.toString() + 'xxxxxxxxx');
-    return dio;
+  }) async{
+    dio.options.headers ={
+      'Authorization':  token
+    };
+    return await dio.post(url,queryParameters: query,
+    data:data,
+    );
+
+  }
 }

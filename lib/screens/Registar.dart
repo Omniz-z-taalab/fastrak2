@@ -41,35 +41,35 @@ class _RegistrationState extends State<Registration> {
 
   Future<RegisterApi> setData() async {
     showProgress(context, 'Loading...', true);
-    try {
-      Dio.Response response = await dio().post(REGISTER, data: {
-        'first_name': firstname.text,
-        'last_name': lastname.text,
-        'password': password.text,
-        'phone': phone.text,
-      });
-      print(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        Data res = Data.fromJson(response.data['data']);
-        CacheHelper.putData(key: 'firstName', value: res.firstName);
-        hideProgress();
-        print(res.phone);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
-      } else {
-        print('error');
-      }
-    } on DioError catch (e) {
-      if (e.response != null) {
-        print('gggggg');
-        Error error = Error.fromJson(e.response.data);
-        print(error.errors[0].message);
-        Fluttertoast.showToast(
-            msg: '${error.errors[0].message}',
-            textColor: Colors.white,
-            backgroundColor: Colors.red);
-      }
-    }
+  //   try {
+  //     Dio.Response response = await dio().post(REGISTER, data: {
+  //       'first_name': firstname.text,
+  //       'last_name': lastname.text,
+  //       'password': password.text,
+  //       'phone': phone.text,
+  //     });
+  //     print(response.statusCode.toString());
+  //     if (response.statusCode == 200) {
+  //       Data res = Data.fromJson(response.data['data']);
+  //       CacheHelper.putData(key: 'firstName', value: res.firstName);
+  //       hideProgress();
+  //       print(res.phone);
+  //       Navigator.push(
+  //           context, MaterialPageRoute(builder: (context) => Home()));
+  //     } else {
+  //       print('error');
+  //     }
+  //   } on DioError catch (e) {
+  //     if (e.response != null) {
+  //       print('gggggg');
+  //       Error error = Error.fromJson(e.response.data);
+  //       print(error.errors[0].message);
+  //       Fluttertoast.showToast(
+  //           msg: '${error.errors[0].message}',
+  //           textColor: Colors.white,
+  //           backgroundColor: Colors.red);
+  //     }
+  //   }
   }
 
   void initState() {

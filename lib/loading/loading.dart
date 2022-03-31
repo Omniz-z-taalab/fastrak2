@@ -12,7 +12,7 @@ showProgress(BuildContext context, String message, bool isDismissible) async {
 
       message: message,
       borderRadius: 10.0,
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.white,
       progressWidget: Container(
           padding: EdgeInsets.all(8.0),
           child: CircularProgressIndicator(

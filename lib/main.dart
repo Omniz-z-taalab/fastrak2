@@ -1,31 +1,205 @@
+import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart' as Dio;
+import 'package:fastrak2/count/bloooc.dart';
+import 'package:fastrak2/count/counter%20screen.dart';
+import 'package:fastrak2/count/event.dart';
+import 'package:fastrak2/Bloc/observer/blocObserver.dart';
+import 'package:fastrak2/count/states.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
+import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/screens/Home.dart';
 import 'package:fastrak2/screens/Registar.dart';
 import 'package:fastrak2/screens/log%20in.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
 
-  // await dio();
-  //  WidgetsFlutterBinding.ensureInitialized();
-   await CacheHelper.init();
-
+void main() {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Login(),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home:
+        BlocProvider<CounterBloc>(
+          create: (context) => CounterBloc(),
+          child: HomePageBlocProvider(title: 'Flutter Demo Home Page'),
+        )
+      //: HomePageVarBloc(title: 'Flutter Demo Home Page'),
     );
   }
 }
+
+class HomePageBlocProvider extends StatelessWidget {
+  HomePageBlocProvider({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(this.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'You have pushed the button this many times:',
+            ),
+            BlocBuilder<CounterBloc, CounterState>(
+              builder: (context, state) {
+                return Text(
+                  state.count.toString(),
+                  style: Theme.of(context).textTheme.headline4,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: 'IncrementButton',
+            onPressed: () {
+              BlocProvider.of<CounterBloc>(context)
+                  .add(IncrementCounterEvent());
+            },
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            heroTag: 'DecrementButton',
+            onPressed: () {
+              BlocProvider.of<CounterBloc>(context)
+                  .add(DecrementCounterEvent());
+            },
+            tooltip: 'Decrement',
+            child: Icon(Icons.remove),
+          ),
+        ],
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+//
+// class HomePageVarBloc extends StatefulWidget {
+//   HomePageVarBloc({Key key, this.title}) : super(key: key);
+//
+//   final String title;
+//
+//   @override
+//   _HomePageVarBlocState createState() => _HomePageVarBlocState();
+// }
+//
+// class _HomePageVarBlocState extends State<HomePageVarBloc> {
+//   CounterBloc _bloc;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _bloc = CounterBloc();
+//   }
+//
+//   @override
+//   void dispose() {
+//     _bloc.close();
+//     super.dispose();
+//   }
+//
+//   void _incrementCounter() {
+//     _bloc.add(IncrementCounterEvent());
+//   }
+//
+//   void _decrementCounter() {
+//     _bloc.add(DecrementCounterEvent());
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             Text(
+//               'You have pushed the button this many times:',
+//             ),
+//             BlocBuilder<CounterBloc, CounterState>(
+//               cubit: _bloc,
+//               builder: (context, state) {
+//                 return Text(
+//                   state.count.toString(),
+//                   style: Theme.of(context).textTheme.headline4,
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: Column(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         children: <Widget>[
+//           FloatingActionButton(
+//             heroTag: 'IncrementButton',
+//             onPressed: _incrementCounter,
+//             tooltip: 'Increment',
+//             child: Icon(Icons.add),
+//           ),
+//           SizedBox(
+//             height: 10,
+//           ),
+//           FloatingActionButton(
+//             heroTag: 'DecrementButton',
+//             onPressed: _decrementCounter,
+//             tooltip: 'Decrement',
+//             child: Icon(Icons.remove),
+//           ),
+//         ],
+//       ), // This trailing comma makes auto-formatting nicer for build methods.
+//     );
+//   }
+// }
+
+
+
+
+
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   Bloc.observer = MyBlocObserver();
+//   await DioHelper.init();
+//   // await CacheHelper.init();
+//
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: CounterScreen(),
+//     );
+//   }
+// }
 //
 // class Login extends StatefulWidget {
 //   const Login({Key key}) : super(key: key);

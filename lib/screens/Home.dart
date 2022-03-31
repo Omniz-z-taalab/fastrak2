@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
         actions: [
 
           Padding(
-            padding: const EdgeInsets.only(top: 15.0,right: 10),
+            padding: const EdgeInsets.only(top: 15.0),
             child: IconButton(
                 onPressed: () {},
                 icon: Image.asset("images/nout.png"),iconSize: 50,
@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
         ],
           // selectedItemColor: Color(0xFF4B0082),
       ),),
-      body: Homeorder(),
+      // body: Homeorder(),
     );
   }
 }

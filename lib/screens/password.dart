@@ -1,3 +1,5 @@
+import 'package:conditional_builder/conditional_builder.dart';
+import 'package:fastrak2/Bloc/cubitLogin/password_cubit.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
@@ -7,39 +9,59 @@ import 'package:fastrak2/network/endpoint.dart';
 import 'package:fastrak2/screens/Home.dart';
 import 'package:fastrak2/screens/Otp.dart';
 import 'package:flutter/material.dart';
-
 import 'dart:convert';
 import 'package:dio/dio.dart' as Dio;
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Password extends StatefulWidget {
-
-  String phone;
-  // String countryName;
-  Password(this.phone);
-
+String phone;
+Password(this.phone);
   _PasswordState createState() => _PasswordState();
 }
 
 class _PasswordState extends State<Password> {
-  TextEditingController password = TextEditingController();
-  TextEditingController _phone = TextEditingController();
-  String countryName;
-  void initState() {
-    if (widget.phone != null) {
-      _phone.text = widget.phone;
-    }
-    print('omnia:${widget.phone}');
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Color(0xFFF9FAFF)));
-    return Scaffold(
+    return BlocProvider(
+    create: (context)=> FastrakPasswordBloc() ,
+    child: newpass('${widget.phone}'));
+    }}
+
+
+    class newpass extends StatefulWidget {
+      String phone;
+      String countryName;
+      newpass(this.phone);
+
+      @override
+      State<newpass> createState() => _newpassState();
+    }
+
+    class _newpassState extends State<newpass> {
+
+      TextEditingController password = TextEditingController();
+      TextEditingController phone = TextEditingController();
+      final key = GlobalKey<FormState>();
+
+      String countryName = '02';
+      void initState() {
+        if (widget.phone != null) {
+          phone.text = widget.phone;
+        }
+        print('omnia:${widget.phone}');
+        super.initState();
+      }
+      @override
+      Widget build(BuildContext context) {
+
+  return Scaffold(
       backgroundColor: Color(0xFFF9FAFF),
 
       appBar: AppBar(
@@ -113,23 +135,26 @@ class _PasswordState extends State<Password> {
                   ),
                   Container(
                     width: 350,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0,right: 20),
-                          child: Text(
-                            "Password",
-                            style: TextStyle(color: Colors.black38, fontSize: 11),
+                    child: Form(
+                      key: key,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 15,
                           ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0,right: 20),
+                            child: Text(
+                              "Password",
+                              style: TextStyle(color: Colors.black38, fontSize: 11),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -185,72 +210,53 @@ class _PasswordState extends State<Password> {
                       ),
                     ),
                   ),
-            Padding(
-              padding: const EdgeInsets.only(right: 15.0, left: 15),
-              child: InkWell(
-                onTap: () {
-            newwpass();
-            },
-                child: Container(
-                  width: 350,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xFF4B0082),
-                  ),
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w500),
-                      ),),
+      //             Padding(
+      //               padding: const EdgeInsets.only(right: 15.0,left: 15),
+      //               child: Container(
+      //                 width: 350,
+      //                 height: 50,
+      //                 decoration: BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(10),
+      //                   color: Color(0xFF4B0082),
+      //                 ),
+      //                 child: ConditionalBuilder(
+      //                   // condition: state is! FastrakPasswordLoading,
+      //                   builder: (context) => TextButton(onPressed: () {
+      // if (key.currentState.validate());
+      //              // context.read<FastrakPasswordBloc>().(()),
+      //
+      //                     child: Align(
+      //                         alignment: Alignment.center,
+      //                         child: Text(
+      //                           'Next',
+      //                           style:
+      //                           TextStyle(color: Colors.white),
+      //                         // )),
+      //                   ),
+      //
+      //                 ),
+      //               ),
+      //             ),
+      //             ],
+      //         ),
+      //       ),
+      //     ),
+      //   ),
 
-                      ),
-                    ),
-                  ),
-                  ],
-              ),
-            ),
-          ),
-        ),
+                        ]))))
+);
+  }}
+  //
+// }
 
-  );
-  }
-
-  Future<passwordApi> newwpass() async {
-    try {
-      showProgress(context, 'Loading', true);
-      Dio.Response response = await dio().post(
-          PASSWORD,
-          data: {
-            'countryName': countryName,
-            'phone': _phone.text,
-            'password': password.text,
-          });
-      if (response.statusCode == 200) {
-        Data user = Data.fromJson(response.data['data']);
-        if (user.hasPassword) {
-          FocusManager.instance.primaryFocus?.unfocus();
-
-          hideProgress();
-          final data = jsonEncode(user.toJson());
-          CacheHelper.putData(key: 'user', value: data);
-          CacheHelper.putData(key: 'token', value: user.accessToken);
-          CacheHelper.putData(key: 'firstName', value: user.firstName);
-          print('mmmmmmmmmm' + CacheHelper.getData(key: 'token'));
-          Navigator.push(context , MaterialPageRoute(builder: (context) =>
-              Home()));
-
-        }
-      } else {
-        print("error");
-      }
-    }  on DioError catch (e) {
-      if (e.response != null) {
-        print('gggggg');
-        Error errorr = Error.fromJson(e.response.data);
-        print(errorr.errors[0].message);
-        Fluttertoast.showToast(msg: '${errorr.errors[0].message}',
-            textColor: Colors.white,
-            backgroundColor: Colors.red);
-      }}}}
+// create: (context) => FastrakPasswordBloc(),
+//       child: BlocConsumer<FastrakPasswordBloc, FastrakPasswordState>(
+//       listener: (context, state) {
+//     if(state is FastrakPasswordSuccess){
+//       if (state.checkPassword.data.hasPassword){
+//         Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
+//       }}if(state is FastrakPasswordError){
+//           Fluttertoast.showToast(msg: '${state.error.errors[0].message}',
+//               textColor: Colors.white,
+//               backgroundColor: Colors.red);
+//       }
