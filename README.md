@@ -1,6 +1,10 @@
 # fastrak2
 
 A new Flutter project.
+flutter version  2.2.2 .
+Dart version 2.13.3.
+SDK version >=2.7.0 <3.0.0.
+
 
 ## Getting Started
 
