@@ -17,15 +17,15 @@ class StringBloc extends Bloc<Event, Statee> {
   if (event is NameCounterEvent) {
     this.name = 'Taalab';
     print(this.name);
-  yield UpdatedNameState(this.name);
+  yield UpdatedNameState(this.name,this.count);
   }
   if(event is CountEvent){
     this.count = this.count + 1;
     print(this.count);
-    yield UpdatedCountState(this.count);
+    yield UpdatedCountState(this.count,this.name);
   }else if (event is CountsubEvent){
     this.count = this.count - 1 ;
-    yield UpdatedCountState(this.count);
+    yield UpdatedCountState(this.count,this.name);
   }
 
   }}

@@ -12,13 +12,13 @@ abstract class Statee {
 }
 
 class StringInitial extends Statee {
-  StringInitial(String name, [count] ) : super(name,count:count) ;
-  String toString() => "InitialCounterState with count:${name.toString()}";
+  StringInitial(String name,int count ) : super(name,count:count) ;
+  String toString() => "InitialCounterState with count:${name.toString()}${count.toString()}";
 }
 
 
 class UpdatedNameState extends Statee {
-  UpdatedNameState(String name) : super(name);
+  UpdatedNameState(String name, count) : super(name,count: count);
 
   @override
   String toString() =>
@@ -27,7 +27,7 @@ class UpdatedNameState extends Statee {
 
 
 class UpdatedCountState extends Statee {
-  UpdatedCountState(int count) : super(count);
+  UpdatedCountState(int count,String name) : super(name,count:count);
 
   @override
   String toString() =>

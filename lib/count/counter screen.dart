@@ -21,19 +21,26 @@ class HomePageBlocProvider extends StatelessWidget {
 
             BlocBuilder<StringBloc, Statee>(
               builder: (context, state) {
-                return Text(
-                  state.name.toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              },
-            ),
-            SizedBox(height: 20,),
-
-            BlocBuilder<StringBloc, Statee>(
-              builder: (context, state) {
-                return Text(
-                  state.count.toString(),
-                  style: Theme.of(context).textTheme.headline4,
+                print(state.count.toString()+ " " + state.name.toString());
+                // if(state is UpdatedNameState){
+                //
+                // }else if(state is UpdatedCountState){
+                //
+                // }else if(state is UpdatedCountState){
+                //
+                // }
+                return Column(
+                  children: [
+                    Text(
+                      state.name.toString(),
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      state.count.toString(),
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ],
                 );
               },
             ),
