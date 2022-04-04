@@ -23,7 +23,9 @@ class StringBloc extends Bloc<Event, Statee> {
     this.count = this.count + 1;
     print(this.count);
     yield UpdatedCountState(this.count);
-
+  }else if (event is CountsubEvent){
+    this.count = this.count - 1 ;
+    yield UpdatedCountState(this.count);
   }
 
   }}

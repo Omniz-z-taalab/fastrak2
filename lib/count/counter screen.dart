@@ -49,6 +49,17 @@ class HomePageBlocProvider extends StatelessWidget {
               BlocProvider.of<StringBloc>(context).add(NameCounterEvent());
             },
             tooltip: 'Increment',
+            child: Icon(Icons.chair),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            heroTag: 'IncrementButton',
+            onPressed: () {
+              BlocProvider.of<StringBloc>(context).add(CountEvent());
+            },
+            tooltip: 'Increment',
             child: Icon(Icons.add),
           ),
           SizedBox(
@@ -57,7 +68,7 @@ class HomePageBlocProvider extends StatelessWidget {
           FloatingActionButton(
             heroTag: 'DecrementButton',
             onPressed: () {
-              BlocProvider.of<StringBloc>(context).add(CountEvent());
+              BlocProvider.of<StringBloc>(context).add(CountsubEvent());
             },
             tooltip: 'Decrement',
             child: Icon(Icons.remove),
