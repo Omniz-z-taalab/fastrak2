@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
 import 'package:fastrak2/Bloc/passwordBloc/PasswordEvent.dart';
-import 'package:fastrak2/Bloc/passwordBloc/PasswordRepo.dart';
+import 'package:fastrak2/Bloc/passwordBloc/AuthenticationRepo.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
 import 'package:fastrak2/Models/Api/passwodApi.dart';
@@ -14,7 +14,7 @@ class PasswordBloc extends Bloc<PasswordEvent, PasswordState> {
   String countryNameuser;
   passwordApi api;
 
-  PasswordRepo passwordRepo;
+  AuthenticationRepo authenticationRepo;
   PasswordBloc() : super(initialState());
 
   @override
@@ -24,22 +24,19 @@ class PasswordBloc extends Bloc<PasswordEvent, PasswordState> {
         phoneuser = event.phone;
         countryNameuser =event.countryName;
       emit(PasswordLoading());
-      Future<passwordApi> response = PasswordRepo.user(phoneuser, passworduser,countryNameuser,api);
-      response.then((value) {
-        print('dddddddddddd' + value.toString());
-      CacheHelper.saveData(key: 'value', value: value);
-        print('omniaaaaaaaaaaaaaaaa333333333333');
-
-        print( CacheHelper.putData(key: 'value',value: value)
-      );
-        emit(PasswordSuc(value));
-    }).catchError((onError){
-          if(onError is DioError){
-            ApiError ctch = ApiError.fromJson(onError.response.data);
-            print(ctch.errors.first.message);
-      emit(PasswordErrorr(ctch.errors.first.message));
-      }}
-      );
+     PasswordBlocMethod();
     }
+  }
+  void PasswordBlocMethod(){
+    Future<passwordApi> response = AuthenticationRepo.user(phoneuser, passworduser,countryNameuser,api);
+    response.then((value) {
+      emit(PasswordSuccess(value));
+    }).catchError((onError){
+      if(onError is DioError){
+        ApiError ctch = ApiError.fromJson(onError.response.data);
+        print(ctch.errors.first.message);
+        emit(PasswordErrorr(ctch.errors.first.message));
+      }}
+    );
   }
 }

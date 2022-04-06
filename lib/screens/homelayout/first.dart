@@ -5,7 +5,6 @@
 // import 'package:fastrak2/Models/Api/OrderList.dart';
 // import 'package:fastrak2/network/endpoint.dart';
 // import 'package:fastrak2/screens/homelayout/secound.dart';
-// import 'package:fastrak2/screens/log%20in.dart';
 // import 'package:flutter/material.dart';
 // import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 //
@@ -40,7 +39,7 @@
 //     print("kkkk");
 //     try {
 //       print(page);
-//       Dio.Response response = await dio().get(GETORDER, queryParameters: {
+//       Dio.Response response = await DioHelper.postData(GETORDER, queryParameters: {
 //         'page': page,
 //       });
 //       print('flgkgggg');

@@ -3,16 +3,8 @@
 
 import 'package:equatable/equatable.dart';
 
-class PasswordEvent extends Equatable{
+class PasswordEvent {}
 
-  @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
-}
-
-class PasswordSuccess extends PasswordEvent{}
-
-class PasswordError extends PasswordEvent{}
 
 
 class PasswordUsser extends PasswordEvent {

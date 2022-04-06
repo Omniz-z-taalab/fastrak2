@@ -1,21 +1,16 @@
 
 
-import 'package:equatable/equatable.dart';
 import 'package:fastrak2/Models/Api/passwodApi.dart';
 
-class PasswordState extends Equatable{
+class PasswordState {
   String password;
-
-  @override
-  // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
 
 }
 class initialState extends PasswordState{
 }
-class PasswordSuc extends PasswordState{
+class PasswordSuccess extends PasswordState{
 passwordApi value;
-PasswordSuc(this.value){
+PasswordSuccess(this.value){
   print(value.data.firstName);
 }
 }

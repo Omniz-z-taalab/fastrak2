@@ -3,32 +3,24 @@ import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
 import 'package:fastrak2/Bloc/passwordBloc/PasswordBloc.dart';
 import 'package:fastrak2/Bloc/passwordBloc/PasswordEvent.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
-import 'package:fastrak2/Dio/Diohelper.dart';
-import 'package:fastrak2/Models/Api/Error.dart';
-import 'package:fastrak2/Models/Api/passwodApi.dart';
-import 'package:fastrak2/loading/loading.dart';
-import 'package:fastrak2/network/endpoint.dart';
+import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:fastrak2/screens/Home.dart';
-import 'package:fastrak2/screens/Otp.dart';
+import 'package:fastrak2/screens/ForgetPassword.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:dio/dio.dart' as Dio;
-import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 
-    class Password extends StatefulWidget {
+    class PasswordScreen extends StatefulWidget {
       String phone;
       String countryName;
-      Password(this.phone);
+      PasswordScreen(this.phone);
 
       @override
-      State<Password> createState() => _PasswordState();
+      State<PasswordScreen> createState() => _PasswordScreenState();
     }
 
-    class _PasswordState extends State<Password> {
+    class _PasswordScreenState extends State<PasswordScreen> {
 
       TextEditingController password = TextEditingController();
       TextEditingController phone = TextEditingController();
@@ -48,7 +40,7 @@ import 'package:fluttertoast/fluttertoast.dart';
             create: (context) => PasswordBloc(),
             child: BlocConsumer<PasswordBloc, PasswordState>(
             listener: (context, state){
-            if(state is PasswordSuc){
+            if(state is PasswordSuccess){
               print(state.value.data.accessToken);
               CacheHelper.saveData(key: 'token', value: state.value.data.accessToken).then((value){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -73,7 +65,7 @@ import 'package:fluttertoast/fluttertoast.dart';
       title: Padding(
         padding: EdgeInsets.only(left: 20),
       child: Image.asset(
-      'images/Logoword.png',
+     FastrakLogo,
       width: 250,
       height: 80,
       ),),
@@ -111,7 +103,7 @@ import 'package:fluttertoast/fluttertoast.dart';
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
                     child: Image.asset(
-                      'images/group.png',
+                      FastrakLogin,
                       height: 300,
                       width: 250,
                     ),
@@ -204,7 +196,7 @@ import 'package:fluttertoast/fluttertoast.dart';
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              OTP(widget.phone)));
+                                              ForgotPassword(widget.phone)));
                                 });
                               }),
                           SizedBox(

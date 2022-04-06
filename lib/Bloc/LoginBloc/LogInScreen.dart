@@ -5,10 +5,11 @@ import 'package:fastrak2/Bloc/LoginBloc/LoginBloc.dart';
 import 'package:fastrak2/Bloc/LoginBloc/LoginEvent.dart';
 import 'package:fastrak2/Bloc/LoginBloc/LoginStates.dart';
 import 'package:fastrak2/Models/Api/checkuser.dart';
+import 'package:fastrak2/network/ImagesScreen.dart';
 
 import 'package:fastrak2/screens/Home.dart';
-import 'package:fastrak2/screens/Registar.dart';
-import 'package:fastrak2/Bloc/passwordBloc/password.dart';
+import 'package:fastrak2/screens/RegistarScreen.dart';
+import 'package:fastrak2/Bloc/passwordBloc/PasswordScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class _LoginState extends State<Login> {
 
             if (state.value == true) {
               print('Abd El-Rahman' + state.value.toString());
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Password(phone.text)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordScreen(phone.text)));
             }else if(state.value == false){
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Registration(phone.text)));
@@ -54,7 +55,7 @@ class _LoginState extends State<Login> {
                 elevation: 0,
                 title: Center(
                   child: Image.asset(
-                    'images/Logoword.png',
+                    FastrakLogo,
                     width: 250,
                     height: 80,
                   ),
@@ -85,7 +86,7 @@ class _LoginState extends State<Login> {
                           Padding(
                             padding: const EdgeInsets.only(top: 1.0),
                             child: Image.asset(
-                              'images/group.png',
+                              FastrakLogin,
                               height: 300,
                               width: 250,
                             ),
@@ -229,13 +230,13 @@ class _LoginState extends State<Login> {
                                     ),
                                     Expanded(
                                         child: socialButton(
-                                            "images/facebook.png", "Facebook")),
+                                            FaceBook, "Facebook")),
                                     SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         child: socialButton(
-                                            "images/google.png", "Google")),
+                                            Google, "Google")),
                                     SizedBox(
                                       width: 15,
                                     ),
@@ -259,7 +260,6 @@ class _LoginState extends State<Login> {
                                         builder: (context) => TextButton(
                                       onPressed: () {
                                   BlocProvider.of<LoginBloc>(context).add(CheeckUser(phone.text));
-                                  print('fffffffffffffffffff');
                                   },
                                       child: Align(
                                           alignment: Alignment.center,
