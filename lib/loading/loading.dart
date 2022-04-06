@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-ProgressDialog progressDialog;
 
+class LoaadingRepo{
+ProgressDialog progressDialog;
 showProgress(BuildContext context, String message, bool isDismissible) async {
   progressDialog = new ProgressDialog(context,
       type: ProgressDialogType.Normal, isDismissible: isDismissible);
@@ -35,4 +36,4 @@ updateProgress(String message) {
 hideProgress() async {
   if(progressDialog!=null)
     await progressDialog.hide();
-}
+}}

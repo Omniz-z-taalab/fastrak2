@@ -1,5 +1,7 @@
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:fastrak2/Bloc/cubitLogin/password_cubit.dart';
+import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
+import 'package:fastrak2/Bloc/passwordBloc/PasswordBloc.dart';
+import 'package:fastrak2/Bloc/passwordBloc/PasswordEvent.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
@@ -16,35 +18,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class Password extends StatefulWidget {
-String phone;
-Password(this.phone);
-  _PasswordState createState() => _PasswordState();
-}
 
-class _PasswordState extends State<Password> {
-
-
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Color(0xFFF9FAFF)));
-    return BlocProvider(
-    create: (context)=> FastrakPasswordBloc() ,
-    child: newpass('${widget.phone}'));
-    }}
-
-
-    class newpass extends StatefulWidget {
+    class Password extends StatefulWidget {
       String phone;
       String countryName;
-      newpass(this.phone);
+      Password(this.phone);
 
       @override
-      State<newpass> createState() => _newpassState();
+      State<Password> createState() => _PasswordState();
     }
 
-    class _newpassState extends State<newpass> {
+    class _PasswordState extends State<Password> {
 
       TextEditingController password = TextEditingController();
       TextEditingController phone = TextEditingController();
@@ -60,10 +44,30 @@ class _PasswordState extends State<Password> {
       }
       @override
       Widget build(BuildContext context) {
+      return BlocProvider(
+            create: (context) => PasswordBloc(),
+            child: BlocConsumer<PasswordBloc, PasswordState>(
+            listener: (context, state){
+            if(state is PasswordSuc){
+              print(state.value.data.accessToken);
+              CacheHelper.saveData(key: 'token', value: state.value.data.accessToken).then((value){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+              });
 
+            }if(state is PasswordErrorr){
+              Fluttertoast.showToast(
+                  msg: state.ctch.toString(),
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.yellow,
+                  textColor: Colors.black,
+                  fontSize: 10.0);
+            }
+        },
+        builder: (context, state) {
   return Scaffold(
       backgroundColor: Color(0xFFF9FAFF),
-
       appBar: AppBar(
         elevation: 0,
       title: Padding(
@@ -75,7 +79,7 @@ class _PasswordState extends State<Password> {
       ),),
         leading: BackButton(
           onPressed: () {
-            hideProgress();
+            // hideProgress();
             FocusScope.of(context).requestFocus(FocusNode());
             Navigator.pop(context);
           },
@@ -206,57 +210,35 @@ class _PasswordState extends State<Password> {
                           SizedBox(
                             height: 30,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15.0,left: 15),
+                            child: Container(
+                              width: 350,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFF4B0082),
+                              ),
+                              child: ConditionalBuilder(
+                                 condition: state is! PasswordLoading,
+                                builder: (context) => TextButton(
+                                  onPressed: () {
+                                    BlocProvider.of<PasswordBloc>(context).add(PasswordUsser(password.text,phone.text,countryName));
+                                  },
+                                  child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text('NEXT',style: TextStyle(fontSize: 14,color: Colors.white),)),
+                                ),
+                                fallback: (context) => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),),),
                         ],
                       ),
                     ),
                   ),
-      //             Padding(
-      //               padding: const EdgeInsets.only(right: 15.0,left: 15),
-      //               child: Container(
-      //                 width: 350,
-      //                 height: 50,
-      //                 decoration: BoxDecoration(
-      //                   borderRadius: BorderRadius.circular(10),
-      //                   color: Color(0xFF4B0082),
-      //                 ),
-      //                 child: ConditionalBuilder(
-      //                   // condition: state is! FastrakPasswordLoading,
-      //                   builder: (context) => TextButton(onPressed: () {
-      // if (key.currentState.validate());
-      //              // context.read<FastrakPasswordBloc>().(()),
-      //
-      //                     child: Align(
-      //                         alignment: Alignment.center,
-      //                         child: Text(
-      //                           'Next',
-      //                           style:
-      //                           TextStyle(color: Colors.white),
-      //                         // )),
-      //                   ),
-      //
-      //                 ),
-      //               ),
-      //             ),
-      //             ],
-      //         ),
-      //       ),
-      //     ),
-      //   ),
+
 
                         ]))))
-);
+);}));
   }}
-  //
-// }
-
-// create: (context) => FastrakPasswordBloc(),
-//       child: BlocConsumer<FastrakPasswordBloc, FastrakPasswordState>(
-//       listener: (context, state) {
-//     if(state is FastrakPasswordSuccess){
-//       if (state.checkPassword.data.hasPassword){
-//         Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
-//       }}if(state is FastrakPasswordError){
-//           Fluttertoast.showToast(msg: '${state.error.errors[0].message}',
-//               textColor: Colors.white,
-//               backgroundColor: Colors.red);
-//       }

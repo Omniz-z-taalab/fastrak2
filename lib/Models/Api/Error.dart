@@ -1,9 +1,9 @@
-class Error {
+class ApiError {
   List<Errors> errors;
 
-  Error({this.errors});
+  ApiError({this.errors});
 
-  Error.fromJson(Map<String, dynamic> json) {
+  ApiError.fromJson(Map<String, dynamic> json) {
     if (json['errors'] != null) {
       errors = <Errors>[];
       json['errors'].forEach((v) {

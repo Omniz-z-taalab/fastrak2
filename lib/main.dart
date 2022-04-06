@@ -1,22 +1,34 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart' as Dio;
-import 'package:fastrak2/count/counter%20screen.dart';
+import 'package:fastrak2/Bloc/LoginBloc/LoginBloc.dart';
 import 'package:fastrak2/Bloc/observer/blocObserver.dart';
 import 'package:fastrak2/Chash/cashHelper.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
+import 'package:fastrak2/Bloc/LoginBloc/log%20in.dart';
 import 'package:fastrak2/screens/Home.dart';
-import 'package:fastrak2/screens/Registar.dart';
-import 'package:fastrak2/screens/log%20in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'count/string/string_bloc.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+  DioHelper.init();
+  await CacheHelper.init();
+  Widget widget;
+  String token = CacheHelper.getData(key: 'token');
+  if(token != null){
+    widget = Home();
+  }else{
+    widget = Login();
+  }
+  runApp(MyApp(widget));
 }
 
 class MyApp extends StatelessWidget {
+final Widget startWidget;
+  const MyApp(this.startWidget);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,11 +36,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-        home:
-        BlocProvider<StringBloc>(
-        create: (context) => StringBloc(),
-    child: HomePageBlocProvider(title: 'Flutter Demo Home Page'),
-    )
-    );
-  }
+        home: startWidget,
+    //     BlocProvider<StringBloc>(
+    //     create: (context) => StringBloc(),
+    // child: HomePageBlocProvider(title: 'Flutter Demo Home Page'),
+
+    );}
 }

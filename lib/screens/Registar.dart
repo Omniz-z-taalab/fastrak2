@@ -40,7 +40,7 @@ class _RegistrationState extends State<Registration> {
   bool _isHidden = true;
 
   Future<RegisterApi> setData() async {
-    showProgress(context, 'Loading...', true);
+    // showProgress(context, 'Loading...', true);
   //   try {
   //     Dio.Response response = await dio().post(REGISTER, data: {
   //       'first_name': firstname.text,
@@ -96,7 +96,7 @@ class _RegistrationState extends State<Registration> {
         ),
         leading: BackButton(
           onPressed: () {
-            hideProgress();
+            // hideProgress();
             FocusScope.of(context).requestFocus(FocusNode());
             Navigator.pop(context);
           },
