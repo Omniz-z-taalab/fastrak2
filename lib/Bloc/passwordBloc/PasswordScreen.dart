@@ -35,6 +35,8 @@ import 'package:fluttertoast/fluttertoast.dart';
         super.initState();
       }
       @override
+      // eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiMTI3MGFiYmRiOTM3OWVjODY3NzA2MjMxODMzMDgzOGE3MDI5ZTZkMjQ5OTAwYjdhYTNhOTAyOTY5ZDNlMjgzNDdjYTQ0Y2I4MGJkNmVkMWYiLCJpYXQiOjE2NDkzMzMzNDksIm5iZiI6MTY0OTMzMzM0OSwiZXhwIjoxNjgwODY5MzQ5LCJzdWIiOiIyMTMxZGVjZC0wYTdhLTQwMjQtODBiZi03ODM3MmIwNjkzMjAiLCJzY29wZXMiOltdfQ.XPEAghQsBQJYHQfrvntv-ga-X5C0iE9JiuNvaexDWwiS92b18ZsZZb7s72Pp64our9QfCOER1OQbsSjN4yhRmizcXrW9zCyn__Vyoi5P6uPFGV80G6KNdO27NMKsfx5LVRfJZ5x4a4dYypZexqV5vjteF_XD5NcmPIaz8V113yZ2rlxZRAE_jz3-rygGk2EBKzZAR8sND6kIcFZzjEBoqNtmc0V4bzqlDzEXMMiYV1TFLi322VniUC9ZcbMtw5EK_riFQwg392FXnulhGE6zouz3BYL7MQabZwZ_08CIlmVXjbcL20aqZeTErsgNtgYht5RUt3bmuqeiES_Y6s1h6x8P9SY8Lm1VWm_AAnaWoUZUn37HlGues3JeoNySL1UcM50wPXiw-dQ6FQRSwFtiF3I1A9KLh_dsfz_8ZiNt7mqj9kQkRk_lNZIeu9Nxrea_2qM6WvI8TxzPrwTIfoyqnzekpPg2T9cG8eEQokS2wVV3O2EJ1mNI7DhqgWS99glc4yctLOcIoXWpXWUEFeXjpVw8le3_WOC4_PMgG0gnvMmZfE40kpC6i_Rw6asJmb6FuSqEK5mKpSEXOCQrucwBtsSPdYIo3PuvM1LdJdVTSCFT8Iutp1JPhANCT1H7iVW2N7BBkeg8_K0BstIL3ZkRtcuwEYA0Fml1rc7vklpes_s
+
       Widget build(BuildContext context) {
       return BlocProvider(
             create: (context) => PasswordBloc(),
@@ -42,9 +44,12 @@ import 'package:fluttertoast/fluttertoast.dart';
             listener: (context, state){
             if(state is PasswordSuccess){
               print(state.value.data.accessToken);
-              CacheHelper.saveData(key: 'token', value: state.value.data.accessToken).then((value){
+              print('omniaaaaaaaaaaa3');
+              CacheHelper.saveData(key: 'firstName', value: state.value.data.firstName).then((value){
+                print(state.value.data.firstName);
+                CacheHelper.saveData(key: 'token', value: state.value.data.accessToken).then((value){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-              });
+              });});
 
             }if(state is PasswordErrorr){
               Fluttertoast.showToast(

@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart' as Dio;
+import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
@@ -9,7 +12,7 @@ class AuthenticationRepo {
   static Future<passwordApi> user(
       phoneuser, passworduser, countryNameuser, api) async {
     print(passworduser + phoneuser + countryNameuser);
-    await DioHelper.postData(url: PASSWORD, data: {
+   Dio.Response response = await dio().post( PASSWORD, data: {
       'phone': passworduser,
       'countryName': countryNameuser,
       'password': phoneuser,
@@ -21,7 +24,7 @@ class AuthenticationRepo {
   }
 
   static Future<bool> LoginMethod(phonee, checkUser) async {
-    await DioHelper.postData(url: LOGIN, data: {'phone': phonee}).then((value) {
+    Dio.Response response = await dio().post( LOGIN, data: {'phone': phonee}).then((value) {
       checkUser = CheckUser.fromJson(value.data);
     });
 

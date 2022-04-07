@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
           // selectedItemColor: Color(0xFF4B0082),
         ),
       ),
-      // body: Homeorder(),
+      body: Homeorder(),
     );
   }
 }

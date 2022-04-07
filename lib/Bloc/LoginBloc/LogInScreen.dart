@@ -259,6 +259,7 @@ class _LoginState extends State<Login> {
                                       condition: state is! LoadingLogin,
                                         builder: (context) => TextButton(
                                       onPressed: () {
+
                                   BlocProvider.of<LoginBloc>(context).add(CheeckUser(phone.text));
                                   },
                                       child: Align(
