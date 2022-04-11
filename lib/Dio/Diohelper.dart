@@ -23,7 +23,7 @@ Dio dio() {
   );
   print(headers.toString());
   print('ddddddddddddddd');
-
+print(accessToken.toString());
   return dio;
 }
 

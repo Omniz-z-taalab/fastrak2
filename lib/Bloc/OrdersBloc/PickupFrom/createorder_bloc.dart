@@ -33,6 +33,7 @@ class CreateorderBloc extends Bloc<CreateorderEvent, CreateorderState> {
               Address = event.address;
               floorNumber =event.FloorNumber;
               print(event.address);
+              print(Clintname);
               print('omniaaaaaaaaa3');
                emit(CreateLoadingState());
 

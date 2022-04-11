@@ -4,7 +4,6 @@ import 'package:dio/dio.dart' as Dio;
 import 'package:fastrak2/Bloc/LoginBloc/LoginBloc.dart';
 import 'package:fastrak2/Bloc/LoginBloc/LoginEvent.dart';
 import 'package:fastrak2/Bloc/LoginBloc/LoginStates.dart';
-import 'package:fastrak2/Models/Api/checkuser.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
 
 import 'package:fastrak2/screens/Home.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);

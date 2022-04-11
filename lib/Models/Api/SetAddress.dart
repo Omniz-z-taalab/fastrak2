@@ -31,7 +31,7 @@ class Data {
   int isHidden;
   Null landmark;
   Null landlineNumber;
-  Country country;
+  Coountry country;
   City city;
   Area area;
 
@@ -67,7 +67,7 @@ class Data {
     landmark = json['landmark'];
     landlineNumber = json['landline_number'];
     country =
-    json['country'] != null ? new Country.fromJson(json['country']) : null;
+    json['country'] != null ? new Coountry.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     area = json['area'] != null ? new Area.fromJson(json['area']) : null;
   }
@@ -99,16 +99,16 @@ class Data {
   }
 }
 
-class Country {
+class Coountry {
   String id;
   String name;
   int activation;
   Null phoneCode;
   Null currency;
 
-  Country({this.id, this.name, this.activation, this.phoneCode, this.currency});
+  Coountry({this.id, this.name, this.activation, this.phoneCode, this.currency});
 
-  Country.fromJson(Map<String, dynamic> json) {
+  Coountry.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     activation = json['activation'];

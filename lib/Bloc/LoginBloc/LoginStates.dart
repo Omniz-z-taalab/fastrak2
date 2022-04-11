@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:fastrak2/Bloc/LoginBloc/LoginRepo.dart';
 import 'package:fastrak2/Models/Api/checkuser.dart';
-import 'package:fastrak2/Bloc/passwordBloc/PasswordScreen.dart';
 
 abstract class LoginState {
   String phone;

@@ -1,13 +1,13 @@
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:dio/dio.dart' as Dio;
-import 'package:dio/dio.dart';
-import 'package:fastrak2/Bloc/OrdersBloc/createorder_bloc.dart';
-import 'package:fastrak2/Dio/Diohelper.dart';
-import 'package:fastrak2/Models/Api/Error.dart';
+import 'package:country_picker/country_picker.dart';
+import 'package:fastrak2/Bloc/OrdersBloc/PickupFrom/createorder_bloc.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
-import 'package:fastrak2/network/endpoint.dart';
+import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:country_picker/src/country_parser.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SetAddressFirstUser extends StatefulWidget {
@@ -20,6 +20,8 @@ class SetAddressFirstUser extends StatefulWidget {
 }
 
 class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
+  String countryName = '20';
+
   String CityDropDown = 'Cairo';
   var elemant = [
     'Cairo',
@@ -48,9 +50,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
         child: BlocConsumer<CreateorderBloc, CreateorderState>(
             listener: (context, state) {
           if (state is OrderSuccess) {
-            print(state.value.address);
-            print(state.value.name);
-            print('5555555555555555555555');
+            print('zzzzzzzzzzzzzzzz');
             widget.firstUser = state.value;
             Navigator.pop(context, widget.firstUser);
           }
@@ -70,14 +70,15 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
               appBar: new AppBar(
                 elevation: 0,
                 title: Image.asset(
-                  'images/Logoword.png',
+                  FastrakLogo,
                   width: 250,
                   height: 80,
                 ),
                 leading: BackButton(
+                  color: Colors.black,
                   onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
 
+                    FocusScope.of(context).requestFocus(FocusNode());
                     Navigator.pop(context);
                   },
                 ),
@@ -88,31 +89,30 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'Add New Address',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.grey),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Text(
+                          'Add New Address',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Colors.grey),
+                        ),
                       ),
                       Column(children: [
                         Form(
                           key: form,
                           child: Column(children: [
                             SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 8.0, left: 15, right: 15),
-                              child: SizedBox(
-                                width: 400.0,
-                                height: 1.0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.grey,
-                                  ),
+                            SizedBox(
+                              width: 350.0,
+                              height: 1.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.grey,
                                 ),
                               ),
                             ),
@@ -133,7 +133,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -178,7 +178,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 20,
+                                      height: 10,
                                     ),
                                     Padding(
                                       padding:
@@ -189,7 +189,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding:
@@ -203,6 +203,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                         child: DropdownButton(
+                                          isExpanded: true,
                                           style: new TextStyle(
                                             color: Colors.black38,
                                           ),
@@ -223,7 +224,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 20,
+                                      height: 10,
                                     ),
                                     Padding(
                                       padding:
@@ -234,7 +235,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding:
@@ -248,6 +249,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                         child: DropdownButton(
+                                          isExpanded: true,
                                           style: new TextStyle(
                                             color: Colors.black38,
                                           ),
@@ -273,9 +275,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(left: 15.0),
@@ -285,7 +284,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -329,9 +328,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(left: 15.0),
@@ -341,7 +337,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -385,9 +381,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(left: 15.0),
@@ -397,7 +390,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -447,9 +440,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(
-                                              height: 10,
-                                            ),
+
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 15.0),
@@ -504,7 +495,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: 15,
+                                              height: 10,
                                             ),
                                             Container(
                                               width: 500,
@@ -512,9 +503,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
@@ -527,7 +515,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: 10,
+                                                      height: 5,
                                                     ),
                                                     SizedBox(
                                                       width: 700,
@@ -584,7 +572,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: 20,
+                                                      height: 10,
                                                     ),
                                                     Padding(
                                                       padding:
@@ -598,7 +586,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: 10,
+                                                      height: 5,
                                                     ),
                                                     Padding(
                                                       padding:
@@ -609,10 +597,12 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                         controller: phone,
                                                         maxLines: 1,
                                                         keyboardType:
-                                                            TextInputType.text,
+                                                            TextInputType
+                                                                .number,
                                                         decoration:
                                                             InputDecoration(
-                                                          hintText: "phone",
+                                                          hintText:
+                                                              "phone Number",
                                                           hintStyle: TextStyle(
                                                               color:
                                                                   Colors.grey),
@@ -647,15 +637,89 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                     .circular(
                                                                         10),
                                                           ),
+                                                          prefixIcon: Container(
+                                                            width: 60,
+                                                            child: Row(
+                                                              children: [
+                                                                InkWell(
+                                                                  onTap: () {
+                                                                    showCountryPicker(
+                                                                      context:
+                                                                          context,
+                                                                      showPhoneCode:
+                                                                          true,
+                                                                      onSelect:
+                                                                          (Country
+                                                                              country) {
+                                                                        print(
+                                                                            "FF: ${country.countryCode}");
+                                                                        setState(
+                                                                            () {
+                                                                          countryName =
+                                                                              country.phoneCode;
+                                                                        });
+                                                                      },
+                                                                    );
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    margin: EdgeInsets.only(
+                                                                        right:
+                                                                            17,
+                                                                        left:
+                                                                            15,
+                                                                        top: 8),
+                                                                    height: 20,
+                                                                    child: Text(
+                                                                      '+${countryName}',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          wordSpacing:
+                                                                              10,
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .shade700),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                // Icon(
+                                                                //   Icons.arrow_drop_down,
+                                                                //   color: Colors.black12,
+                                                                //   size: 20,
+                                                                // ),
+                                                                Container(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade300,
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: 1.0,
+                                                                    height:
+                                                                        25.0,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
+                                                        inputFormatters: [
+                                                          FilteringTextInputFormatter
+                                                              .digitsOnly,
+                                                          LengthLimitingTextInputFormatter(
+                                                              10),
+                                                          FilteringTextInputFormatter
+                                                              .allow(RegExp(
+                                                                  r'^[1-9][0-9]*$'))
+                                                        ],
                                                         validator: (value) {
                                                           if (value == null ||
                                                               value.isEmpty) {
-                                                            return "phone number field is required";
+                                                            return "required phone number";
                                                           }
                                                           if (value.length <
                                                               9) {
-                                                            return "Mobile number should be between 8 and 14 number";
+                                                            return "Mobile number should be between 8 and 10 numbers";
                                                           }
                                                           return null;
                                                         },
@@ -686,14 +750,14 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                               child: TextButton(
                                                                   style: TextButton
                                                                       .styleFrom(
-                                                                    padding: EdgeInsets.only(
-                                                                        left:
-                                                                            15.0,
-                                                                        right:
-                                                                            15.0,
-                                                                        top: 15,
-                                                                        bottom:
-                                                                            15),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      left:
+                                                                          15.0,
+                                                                      right:
+                                                                          15.0,
+                                                                    ),
                                                                     primary: Colors
                                                                         .black,
                                                                     textStyle: const TextStyle(
@@ -744,7 +808,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                       child:
                                                                           CircularProgressIndicator(),
                                                                     ),
-
                                                                   )),
                                                             ),
                                                           ),
