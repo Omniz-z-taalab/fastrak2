@@ -50,29 +50,36 @@ class CreateRepo{
       }
     }
   }
- static Future<Coast> priceData() async {
-    print('omnia');
-    try {
-      Dio.Response response = await dio().get(SHIPMENTDETAILS);
+ static Future<Coast>priceData(type,deliverytime,hasinsurance,weight,monycollected,promoCode) async {
+    print("type " + type + "deliverytime" + deliverytime + "hasinsurance" +
+        "hasinsurance" + hasinsurance + "weight"+ weight + "monycollected" + monycollected);
+      Dio.Response response = await dio().get(SHIPMENTDETAILS,queryParameters: {
+        'type':type,
+        'delivery_time':deliverytime,
+        'has_insurance': hasinsurance,
+        'weight': weight,
+        'money_collected': monycollected,
+        'promocode': promoCode
+      });
       print('zayed' + response.statusCode.toString());
       if (response.statusCode == 200) {
         print(response.data.toString());
         Coast userr = Coast.fromJson(response.data['data']);
-        print(userr.totalShippingFees.toString() + '2222222222222');
+        print(userr.shippingFees.toString() + '2222222222222');
         print('hager ');
 
         print('safwat');
         return userr;
 
       }
-    } catch (e) {}
   }
-  static Future<PromoCodeApi> Promo(promoCode) async {
+  static Future<PromoCodeApi> Promo(promoCode,type,deliverytime,hasinsurance,weight,moneycollected) async {
 print(promoCode.toString());
+print(type + deliverytime + moneycollected + promoCode);
+
     print('omnia');
       Dio.Response response = await dio().get(PROMOCODE,queryParameters: {'promocode': promoCode});
       print('upppupupupupupupupupupupupupup');
-
         PromoCodeApi userr = PromoCodeApi.fromJson(response.data['data']);
         return userr;
 

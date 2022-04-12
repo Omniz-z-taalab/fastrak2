@@ -1,4 +1,6 @@
 import 'package:conditional_builder/conditional_builder.dart';
+import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/LastScreenInOrder.dart';
+import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/shipment_details_bloc.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/lastScreenInOrder.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/PromoCodeBloc/promo_code_bloc.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
@@ -9,16 +11,25 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class ShipmentCostScreen extends StatefulWidget {
   String num;
-  String bottom;
   String dropdownValue;
-  String Dropdown;
-  int integer;
-  String Size;
+  String weight;
   Data newuser;
   Data newman;
+  String collectAmount;
+  String description;
+  int integer;
+  String DeliveryTime;
 
-  ShipmentCostScreen(this.bottom, this.num, this.newuser, this.Dropdown,
-      this.dropdownValue, this.integer, this.Size, this.newman);
+  ShipmentCostScreen(
+      this.num,
+      this.newuser,
+      this.dropdownValue,
+      this.weight,
+      this.newman,
+      this.collectAmount,
+      this.description,
+      this.integer,
+      this.DeliveryTime);
 
   @override
   State<ShipmentCostScreen> createState() => _ShipmentCostScreenState();
@@ -28,68 +39,84 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
   TextEditingController code = TextEditingController();
   bool isCheck = false;
   int val = -1;
-  int totalmony;
-  String number;
-  String shetbutton;
-  String Drob;
-  String Down;
-  int intt;
-  String Sizee;
-  Data newnewuser;
-  Data newnewman;
+  int Coasst;
+  int current = 0;
+  String Textt;
+  String newText;
 
-  @override
+  // int index = 0;
+
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.bottom);
-    shetbutton = widget.bottom;
-    number = widget.num;
-    newnewman = widget.newman;
+
+    print(widget.num);
+    print('aaaaaaaaaaaa');
+    print(widget.newman);
+    print(widget.newman.address + widget.newman.phone);
+    print('bbbbbbbbbbbb');
+
+    print(widget.DeliveryTime);
+    print('ccccccccccccc');
+
     print(widget.dropdownValue);
-    Drob = widget.dropdownValue;
-    print('BBBBBBBBBBBB' + widget.newuser.phone);
-    newnewuser = widget.newuser;
-    print(newnewman.phone + 'vvvvvvvvvvvvvvvv');
-    print(widget.Dropdown);
-    Down = widget.Dropdown;
+    print('dddddddddddddd');
+
+    print(widget.weight);
+    print('eeeeeeeeeeee');
+
+    print(widget.newuser);
+    print('fffffffffffffff');
+
+    print(widget.collectAmount);
+    print('gggggggggggggg');
+
+    print(widget.description);
+    print('hhhhhhhhhhhhhhhhs');
+
     print(widget.integer);
-    intt = widget.integer;
-    print(widget.Size + 'dddddddd');
-    Sizee = widget.Size;
+
     print('mnasss');
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => PromoCodeBloc(),
-        child: BlocConsumer<PromoCodeBloc, PromoCodeState>(
+        create: (_) => ShipmentDetailsBloc(),
+        child: BlocConsumer<ShipmentDetailsBloc, ShipmentDetailsState>(
             listener: (context, state) {
-              if (state is CodeSuccess) {
-                Fluttertoast.showToast(
-                    msg: 'Success Code',
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.green,
-                    textColor: Colors.white,
-                    fontSize: 10.0);
-                Navigator.pop(context, 'Success');
-                print('voooooov');
-              }if(state is CodeErorr){
-                Fluttertoast.showToast(
-                    msg: state.onError.toString(),
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 10.0);
-              }
-            }, builder: (context, state) {
+          if (state is CodeSuccess) {
+            print(state.value.shippingFees);
+            widget.integer = state.value.shippingFees;
+            print('eslaaaaaaaaaam');
+            Fluttertoast.showToast(
+                msg: 'Success Code',
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 20.0);
+            Navigator.pop(context, state.value.shippingFees);
+          }
+          if (state is CodeErorr) {
+            Fluttertoast.showToast(
+                msg: state.onError.toString(),
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 10.0);
+          }
+          if (state is ChangeButtonSuccess) {
+            // print(state.current);
+            current = state.State;
+            // print('vvvvvvvvvvvvvvv');
+          }
+        }, builder: (context, state) {
           return Scaffold(
-          appBar: new AppBar(
+            appBar: new AppBar(
               elevation: 0,
               title: Image.asset(
                 FastrakLogo,
@@ -372,9 +399,22 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                                                                   Colors.white),
                                                         ),
                                                         onPressed: () {
-                                                          BlocProvider.of<PromoCodeBloc>(context).add(CheckCode(code.text));
-                                                          print(
-                                                              'zzzzzzzzzzzzzzzz');
+                                                          print(code.text +
+                                                              widget.weight +
+                                                              widget
+                                                                  .description +
+                                                              widget
+                                                                  .collectAmount);
+                                                          BlocProvider.of<
+                                                                      ShipmentDetailsBloc>(
+                                                                  context)
+                                                              .add(CheckCode(
+                                                                  code.text,
+                                                                  widget.weight,
+                                                                  widget
+                                                                      .description,
+                                                                  widget
+                                                                      .collectAmount));
                                                         }),
                                                   ),
                                                 ),
@@ -389,16 +429,116 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                 SizedBox(
                   height: 50,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                        child:
-                            socialButton("images/mon.png", "cash on delivery")),
-                    Expanded(
-                        child:
-                            socialButton("images/money.png", "Cash on Pickup")),
-                  ],
-                ),
+                Row(children: [
+                  Expanded(
+                    child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<ShipmentDetailsBloc>(context)
+                              .add(ChangeButton(0));
+                        },
+                        child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  // border: Border.all(
+                                  // color: Color(0xFF4B0082), width: 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.purple.shade100
+                                            .withOpacity(.03),
+                                        spreadRadius: 3),
+                                  ]),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                      color: current == 1
+                                          ? Colors.purple.shade50
+                                          : Colors.purple.shade600,
+                                      width: 1),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      "images/mon.png",
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "Cash on Delivery",
+                                      style: TextStyle(
+                                          fontSize: 8,
+                                          fontStyle: FontStyle.normal,
+                                          color: Colors.black87),
+                                    ),
+                                  ],
+                                ),
+                                // ("images/money.png", "Cash on Pickup")),
+                              ),
+                            ))),
+                  ),
+                  Expanded(
+                      child: InkWell(
+                          onTap: () {
+                            BlocProvider.of<ShipmentDetailsBloc>(context)
+                                .add(ChangeButton(1));
+                          },
+                          child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    // border: Border.all(
+                                    //     color: Color(0xFF4B0082), width: 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.purple.shade100
+                                              .withOpacity(.03),
+                                          spreadRadius: 3),
+                                    ]),
+                                child: Container(
+                                  // color: current == 0 ? Colors.red : Colors.blue,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    border: Border.all(
+                                        color: current == 0
+                                            ? Colors.purple.shade50
+                                            : Colors.purple.shade600,
+                                        width: 1),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        "images/money.png",
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        "Cash on Pickup",
+                                        style: TextStyle(
+                                            fontSize: 8,
+                                            fontStyle: FontStyle.normal,
+                                            color: Colors.black87),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )))),
+                ]),
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -432,7 +572,9 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
-                      'A 2% Additional charge will be added to your payment',
+                      current == 1 ?
+                      'A 2% Additional charge will be added to your payment':
+                          '',
                       style: TextStyle(fontSize: 13, color: Color(0xFF6B778D)),
                     ),
                   ),
@@ -464,30 +606,18 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                                   fontSize: 18.0, color: Colors.white),
                             ),
                             onPressed: () {
-                              if (isCheck != true) {
-                                Fluttertoast.showToast(
-                                    msg:
-                                        "you should agree to terms and Conditions and Privacy Policy to be able to continue",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.yellow,
-                                    textColor: Colors.white,
-                                    fontSize: 30.0);
-                              } else {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => lastScreenInOrder(
-                                          shetbutton,
-                                          number,
-                                          newnewman,
-                                          Drob,
-                                          newnewuser,
-                                          Down,
-                                          intt,
-                                          Sizee,
-                                        )));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) =>
+                                      LastScreenInOrder(
+                                        widget.weight,
+                                        widget.DeliveryTime,
+                                        widget.newman,
+                                        widget.newuser,
+                                        widget.collectAmount,
+                                        widget.description,
+                                      )));
                               }
-                            }),
+                            ),
                       ),
                     ),
                   ],
@@ -496,6 +626,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
             ),
           );
         }));
+
   }
 
   Widget socialButton(String image, String title) {
@@ -504,7 +635,6 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
       child: Container(
         height: 60,
         decoration: BoxDecoration(
-            color: Colors.white70,
             borderRadius: BorderRadius.circular(7),
             border: Border.all(color: Color(0xFF4B0082), width: 1),
             boxShadow: [
@@ -512,28 +642,97 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                   color: Colors.purple.shade100.withOpacity(.03),
                   spreadRadius: 3),
             ]),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              image,
-              height: 40,
-              width: 40,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              title,
-              style: TextStyle(
-                  fontSize: 8,
-                  fontStyle: FontStyle.normal,
-                  color: Colors.black87),
-            ),
-          ],
+        child: Container(
+          // color: current == 0 ? Colors.red : Colors.blue,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(
+                color: current == 1 ? Color(0xFF4B0082) : Colors.red, width: 1),
+            // boxShadow: [
+            //   BoxShadow(color:
+            //       Colors.purple.shade100.withOpacity(.03),
+            //       spreadRadius: 3),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                image,
+                height: 40,
+                width: 40,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 8,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.black87),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+//
+//   Widget Button(String image, String title) {
+//     return Padding(
+//       padding: const EdgeInsets.all(15.0),
+//       child:
+//       Container(
+//         height: 60,
+//         decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(7),
+//             border: Border.all(color: Color(0xFF4B0082), width: 1),
+//             boxShadow: [
+//               BoxShadow(
+//
+//                   color: Colors.purple.shade100.withOpacity(.03),
+//                   spreadRadius: 3),
+//             ]),
+//
+//         child: Container(
+//           // color: current == 0 ? Colors.red : Colors.blue,
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(7),
+//             border: Border.all(
+//                 color: index == 1 ?
+//                 Color(0xFF4B0082)
+//                     : Colors.red,
+//                 width: 1),
+//             // boxShadow: [
+//             //   BoxShadow(color:
+//             //       Colors.purple.shade100.withOpacity(.03),
+//             //       spreadRadius: 3),
+//           ),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: <Widget>[
+//               Image.asset(
+//                 image,
+//                 height: 40,
+//                 width: 40,
+//               ),
+//               SizedBox(
+//                 width: 5,
+//               ),
+//               Text(
+//                 title,
+//                 style: TextStyle(
+//                     fontSize: 8,
+//                     fontStyle: FontStyle.normal,
+//                     color: Colors.black87),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 }

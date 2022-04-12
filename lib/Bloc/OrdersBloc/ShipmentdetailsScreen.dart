@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' as Dio;
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentCostScreen.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/newscreen.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/shipment_details_bloc.dart';
+import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/Models/Api/ApiPrice.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
@@ -13,11 +14,11 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Shipmentdetails extends StatefulWidget {
-  String Size;
+  String weight;
   Data newuser;
   Data newman;
 
-  Shipmentdetails(this.Size, this.newuser, this.newman);
+  Shipmentdetails(this.weight, this.newuser, this.newman);
 
   @override
   State<Shipmentdetails> createState() => _ShipmentdetailsState();
@@ -25,8 +26,8 @@ class Shipmentdetails extends StatefulWidget {
 
 class _ShipmentdetailsState extends State<Shipmentdetails> {
   final formkey = GlobalKey<FormState>();
-
   Data newnewMen;
+  Data newnewuser;
   bool isSwitched = false;
   var textValue = 'Amount to be collected';
   TextEditingController collectAmount = TextEditingController();
@@ -35,7 +36,16 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
   int integer;
 
   TextEditingController description = TextEditingController();
+  newCoast() async{
+     Coast result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ShipmentCostScreen(num,widget.newuser,dropdownValue,widget.weight,widget.newman,collectAmount.text,description.text,integer,DeliveryTime)));
+      print('?????????????????????????????');
+       print(result.shippingFees);
+  }
 
+initialState(){
+  // newnewMen= widget.newman;
+  //  newnewuser = widget.newuser;
+}
   @override
   Widget build(BuildContext context) {
 
@@ -44,10 +54,12 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
         child: BlocConsumer<ShipmentDetailsBloc, ShipmentDetailsState>(
           listener: (context , state){
             if(state is SuccessSipmentState){
+              print(state.value.shippingFees);
+
               print('voooooov');
-              integer = state.value.totalShippingFees;
-              print('88888888888888888888888888888');
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ShipmentCostScreen( collectAmount.text, num, widget.newuser, Dropdown, dropdownValue, integer, widget.Size, widget.newman)));
+              integer = state.value.shippingFees;
+
+              newCoast();
             }if(state is ErrorSipmentState){
               Fluttertoast.showToast(
                   msg: state.ShipmentError.toString(),
@@ -224,66 +236,55 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
               SizedBox(
                 height: 20,
               ),
-              // Container(
-              //   // color: Colors.white,
-              //   height: 50,
-              //   width: 380,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.only(
-              //           topLeft: Radius.circular(15),
-              //           topRight: Radius.circular(15)),
-              //       color: Colors.white),
-                // child: Row(
-                //   children: [
-                //     Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Container(
-                //               padding: EdgeInsets.all(10),
-                //               child: Text(
-                //                 'Amount to be collected',
-                //                 style: TextStyle(color: Color(0xFF6B778D)),
-                //               )),
-                //         ]),
-                //     Padding(
-                //       padding: const EdgeInsets.only(left: 120.0),
-                //       child: FlutterSwitch(
-                //         width: 40.0,
-                //         height: 20.0,
-                //         toggleColor: Color(0xFF4B0082),
-                //         switchBorder: Border.all(
-                //           color: Color(0xFF4B0082),
-                //           width: 1.0,
-                //         ),
-                //         activeColor: Colors.white,
-                //         inactiveColor: Colors.white,
-                //         valueFontSize: 16.0,
-                //         toggleSize: 20.0,
-                //         value: status,
-                //         borderRadius: 30.0,
-                //         padding: 2.0,
-                //         showOnOff: true,
-                //         onToggle: (val) {
-                //           setState(() {
-                //             status = val;
-                //           });
-                //         },
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              // ),
-              // SizedBox(
-              //   height: 1,
-              //   width: 380,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(20),
-              //       color: Colors.black12,
-              //     ),
-              //   ),
-              // ),
               Container(
+                // color: Colors.white,
+                height: 50,
+                width: 380,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white),
+                child: Row(
+                  children: [
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                'Amount to be collected',
+                                style: TextStyle(color: Color(0xFF6B778D)),
+                              )),
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 150.0),
+                      child: FlutterSwitch(
+                        width: 45.0,
+                        height: 25.0,
+                        toggleColor: Color(0xFF4B0082),
+                        switchBorder: Border.all(
+                          color: Color(0xFF4B0082),
+                          width: 1.0,
+                        ),
+                        activeColor: Colors.white,
+                        inactiveColor: Colors.white,
+                        valueFontSize: 16.0,
+                        toggleSize: 20.0,
+                        value: status,
+                        borderRadius: 30.0,
+                        padding: 2.0,
+                        showOnOff: true,
+                        onToggle: (val) {
+                          setState(() {
+                            status = val;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              status == true
+              ? Container(
                 height: 60,
                 width: 380,
                 color: Colors.white,
@@ -358,7 +359,8 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                              ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 33.0,top: 3,bottom: 3),
-                                  child: Container(
+                                  child:
+                                  Container(
                                     width: 75,
                                     height: 40,
 
@@ -375,7 +377,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
 
                   ],
                 ),
-              ),
+              ) : SizedBox(),
               SizedBox(height: 10,),
               Container(
                 // color: Colors.white,
@@ -410,13 +412,13 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                       inactiveColor: Colors.white,
                       valueFontSize: 16.0,
                       toggleSize: 20.0,
-                      value: status,
+                      value: isSwitched,
                       borderRadius: 30.0,
                       padding: 2.0,
                       showOnOff: true,
                       onToggle: (val) {
                         setState(() {
-                          status = val;
+                          isSwitched = val;
                         });
                       },
                     ),
@@ -424,16 +426,6 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                 ],
               ),
               ),
-              // SizedBox(
-              //   height: 1,
-              //   width: 380,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(20),
-              //       color: Colors.black12,
-              //     ),
-              //   ),
-              // ),
 
 
               Padding(
@@ -457,23 +449,25 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: Colors.grey),
-                      // contentPadding: EdgeInsets.only(
-                      //     top: 3, bottom: 3, right: 5, left: 5),
+
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide:
                             BorderSide(width: 3, color: Color(0xFF6B778D80)),
+
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade500),
+                        borderSide: BorderSide(
+                            color: Colors.grey.shade500),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "please enter description";
-                      }
-                      return 'null';
+           validator: (value) {
+           if (value == null || value.isEmpty) {
+           return " field is required";
+           }
+           return null;
+
                     }),
               ),
               Column(
@@ -504,7 +498,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                           ),
                           onPressed: () {
                             if (formkey.currentState.validate()) {
-                              BlocProvider.of<ShipmentDetailsBloc>(context).add(SendData(collectAmount.text,description.text));
+                              BlocProvider.of<ShipmentDetailsBloc>(context).add(SendData(collectAmount.text,description.text,widget.weight));
                               print('zzzzzzzzzzzzzzzz');
 
 
@@ -548,7 +542,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
               );
             }).toList(),
           )));
-  String Dropdown = 'Rushed Delivery - 180 minutes';
+  String DeliveryTime = 'Rushed Delivery - 180 minutes';
 
   Widget _dropDown() => Container(
         height: 50,
@@ -560,12 +554,12 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
           padding: EdgeInsets.all(5.0),
           child: DropdownButton<String>(
             isExpanded: true,
-            value: Dropdown,
+            value: DeliveryTime,
             style: TextStyle(color: Colors.black),
             underline: Container(),
             onChanged: (String Value) {
               setState(() {
-                Dropdown = Value;
+                DeliveryTime = Value;
               });
             },
             items: <String>[

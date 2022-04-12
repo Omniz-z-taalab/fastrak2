@@ -14,5 +14,6 @@ const  FastrakLogo =  'images/Logoword.png';
   const  LocationImage = 'images/loca.png';
   const  ShipmentDetails = 'images/detal.png';
  const  PromoCode = 'images/copon.png';
+ const DoneOrder = 'images/Done.png';
  // const  FastrakLogin = 'images/group.png';
  // const  FastrakLogin = 'images/group.png';

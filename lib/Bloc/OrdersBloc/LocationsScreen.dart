@@ -3,12 +3,13 @@ import 'package:fastrak2/Bloc/OrdersBloc/PickupFrom/PickupFromScreen.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/DropOf/DropofScreen.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentdetailsScreen.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
+import 'package:fastrak2/screens/homelayout/secound.dart';
 import 'package:flutter/material.dart';
 
 class PickupAddressScreen extends StatefulWidget {
-  String Sizeitem;
+  String weight;
 
-  PickupAddressScreen(this.Sizeitem);
+  PickupAddressScreen(this.weight);
 
   @override
   State<PickupAddressScreen> createState() => _PickupAddressScreenState();
@@ -23,7 +24,8 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
   ];
 
   Data SecondUser = new Data();
-  String Size;
+
+  // String Size;
   Data firstUser = new Data();
   Data newuser;
   Data newman;
@@ -60,8 +62,8 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.Sizeitem + 'nnnnnnnn');
-    Size = widget.Sizeitem;
+    print(widget.weight + 'nnnnnnnn');
+    // Size = widget.weight;
     print('fffffff');
   }
 
@@ -169,8 +171,8 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
                         child: Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1, color: Colors.black45),
+                              border:
+                                  Border.all(width: 1, color: Colors.black45),
                               borderRadius: BorderRadius.circular(10)),
                           child: DropdownButton(
                             isExpanded: true,
@@ -209,42 +211,133 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 15.0, right: 15),
-                        child: TextFormField(
-                          controller: zayed,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(
-                                top: 3, bottom: 3, right: 5, left: 5),
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
+                          padding: const EdgeInsets.only(left: 15.0, right: 15),
+                          child: TextFormField(
+                              controller: zayed,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    top: 3, bottom: 3, right: 5, left: 5),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black12),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                suffixIcon: InkWell(
+                                  child: ImageIcon(
+                                    AssetImage(IconLocation),
+                                  ),
+                                ),
                               ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black12),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            suffixIcon: InkWell(
-                              child: ImageIcon(
-                                AssetImage(IconLocation),
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return " field is required";
-                            }
-                            return null;
-                          },
-                          onTap: () {
-                            Dropss();
-                            setState(() {});
-                          },
-                        ),
-                      ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return " field is required";
+                                }
+                                return null;
+                              },
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  bottom: BorderSide(
+                                                      color: Colors
+                                                          .grey.shade300))),
+                                          child: ListTile(
+                                            title: Center(
+                                              child: Text("Add pickup location",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 15)),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        Colors.grey.shade300)),
+                                          ),
+                                          child: ListTile(
+                                            title: Center(
+                                              child: Text(
+                                                "Choose address",
+                                                style: TextStyle(
+                                                    color: Color(0xFF4B0082),
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Second()));
+                                            },
+                                          ),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey.shade300),
+                                            ),
+                                          ),
+                                          child: ListTile(
+                                            title: Center(
+                                              child: Text(
+                                                "Confirm",
+                                                style: TextStyle(
+                                                    color: Color(0xFF4B0082),
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Center(
+                                            child: Container(
+                                              width: 300,
+                                              height: 45,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Color(0xFF4B0082),
+                                              ),
+                                              child: Center(
+                                                child: Text("Add new Address",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16)),
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Dropss();
+                                          },
+                                        ),
+                                      ],
+                                    );
+
+                                    // ();
+                                  },
+                                );
+                              })),
                       SizedBox(
                         height: 10,
                       ),
@@ -266,98 +359,203 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 12.0, right: 12),
-                              child: TextFormField(
-                                maxLines: 1,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  contentPadding: EdgeInsets.only(
-                                      top: 3, bottom: 3, right: 5, left: 5),
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade500),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  suffixIcon: InkWell(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 2.0),
-                                      child: ImageIcon(
-                                        AssetImage(IconLocation),
+                                padding: const EdgeInsets.only(
+                                    left: 12.0, right: 12),
+                                child: TextFormField(
+                                    maxLines: 1,
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(
+                                          top: 3, bottom: 3, right: 5, left: 5),
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey,
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return " field is required";
-                                  }
-                                  return null;
-                                },
-                                controller: controll,
-                                onTap: () {
-                                  DropDown();
-                                },
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15,
-                                      top: 30,
-                                      bottom: 15),
-                                  child: Container(
-                                    width: 420,
-                                    height: 50,
-                                    child: TextButton(
-                                        style: TextButton.styleFrom(
-                                          // padding: EdgeInsets.only(
-                                          //     left: 15.0,
-                                          //     right: 15.0,
-                                          //     top: 15,
-                                          //     bottom: 15),
-                                          primary: Colors.black,
-                                          textStyle:
-                                              const TextStyle(fontSize: 20),
-                                          backgroundColor: Color(0xFF4B0082),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade500),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      suffixIcon: InkWell(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 2.0),
+                                          child: ImageIcon(
+                                            AssetImage(IconLocation),
                                           ),
                                         ),
-                                        child: Text(
-                                          "Next",
-                                          style: TextStyle(
-                                              fontSize: 18.0,
-                                              color: Colors.white),
-                                        ),
-                                        onPressed: () {
-                                          if (_form.currentState.validate()) {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Shipmentdetails(Size,
-                                                            newuser, newman)));
-                                          }
-                                        }),
-                                  ),
-                                ),
-                              ],
-                            ),
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return " field is required";
+                                      }
+                                      return null;
+                                    },
+                                    controller: controll,
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: Colors.grey
+                                                                .shade300))),
+                                                child: ListTile(
+                                                  title: Center(
+                                                    child: Text(
+                                                        "Add pickup location",
+                                                        style: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 15)),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                      bottom: BorderSide(
+                                                          color: Colors
+                                                              .grey.shade300)),
+                                                ),
+                                                child: ListTile(
+                                                  title: Center(
+                                                    child: Text(
+                                                      "Choose address",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Color(0xFF4B0082),
+                                                          fontSize: 20),
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    Second()));
+                                                  },
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors
+                                                            .grey.shade300),
+                                                  ),
+                                                ),
+                                                child: ListTile(
+                                                  title: Center(
+                                                    child: Text(
+                                                      "Confirm",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Color(0xFF4B0082),
+                                                          fontSize: 20),
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ),
+                                              ListTile(
+                                                title: Center(
+                                                  child: Container(
+                                                    width: 300,
+                                                    height: 45,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: Color(0xFF4B0082),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                          "Add new Address",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 16)),
+                                                    ),
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  DropDown();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+
+                                    })),
+        Column(
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
+            mainAxisAlignment:
+            MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0,
+                    right: 15,
+                    top: 30,
+                    bottom: 15),
+                child: Container(
+                  width: 420,
+                  height: 50,
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                        // padding: EdgeInsets.only(
+                        //     left: 15.0,
+                        //     right: 15.0,
+                        //     top: 15,
+                        //     bottom: 15),
+                        primary: Colors.black,
+                        textStyle:
+                        const TextStyle(
+                            fontSize: 20),
+                        backgroundColor:
+                        Color(0xFF4B0082),
+                        shape:
+                        RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius
+                              .circular(10.0),
+                        ),
+                      ),
+                      child: Text(
+                        "Next",
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white),
+                      ),
+                      onPressed: () {
+                        if (_form.currentState
+                            .validate()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Shipmentdetails(widget.weight, newuser,newman)));
+                        }
+                      }),
+                ),
+              ),
+            ]),
                           ]),
                     ]),
               ]),

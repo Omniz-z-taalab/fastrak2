@@ -76,13 +76,13 @@ class _HomeorderState extends State<Homeorder>
   //   }
   // }
 
-  String Sizeitem = '0.5 Kg';
+  String weight = '0.5 ';
   var item = [
-    '0.5 Kg',
-    '1 Kg',
-    '1.5 Kg',
-    '2 Kg',
-    '2.5 Kg',
+    '0.5 ',
+    '1 ',
+    '1.5 ',
+    '2 ',
+    '2.5',
     '3 Kg',
   ];
 
@@ -280,7 +280,7 @@ class _HomeorderState extends State<Homeorder>
                         child: DropdownButton(
                           isExpanded: true,
                             style: TextStyle(fontSize: 12,color: Colors.black),
-                          value: Sizeitem,
+                          value: weight,
                           // Array list of items
                           items: item.map((String items) {
                             return DropdownMenuItem(
@@ -290,7 +290,7 @@ class _HomeorderState extends State<Homeorder>
                           }).toList(),
                           onChanged: (String newValue) {
                             setState(() {
-                              Sizeitem = newValue;
+                              weight = newValue;
                             });
                           },
                           underline: SizedBox(),
@@ -320,7 +320,7 @@ class _HomeorderState extends State<Homeorder>
                             style:
                                 TextStyle(fontSize: 13.0, color: Colors.white)),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PickupAddressScreen(Sizeitem)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PickupAddressScreen(weight)));
                           // fetchData();
                         },
                       ),

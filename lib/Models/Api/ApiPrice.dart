@@ -1,4 +1,3 @@
-
 class ApiCollectAmount {
   Coast coast;
 
@@ -55,4 +54,5 @@ class Coast {
     data['shipping_fees_discount'] = this.shippingFeesDiscount;
     data['total_shipping_fees'] = this.totalShippingFees;
     return data;
-  }}
+  }
+}
