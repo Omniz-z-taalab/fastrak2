@@ -15,11 +15,37 @@ class CreateorderInitial extends CreateorderState {}
 
  class CreateLoadingState extends CreateorderState{}
 
-class OrderSuccess extends CreateorderState{
+class SuccessFirstUser extends CreateorderState{
 
   Data value;
-  OrderSuccess(this.value){
+  SuccessFirstUser(this.value){
     print(value.name);
     print('ayyyyyyyy 7aaaaaaagaaaaaaa');
   }
+}
+
+class ErrorSecondUserState extends CreateorderState{
+  String ctch;
+  ErrorSecondUserState(this.ctch);
+
+}
+
+class CheckDataSuccess extends CreateorderState{
+  List<Cities> data;
+  CheckDataSuccess(this.data);
+}
+class AreaseSuccess extends CreateorderState{
+  List<Areas> aree;
+  AreaseSuccess(this.aree);
+
+}
+class Changestate extends CreateorderState{
+  Cities cityChange;
+  Changestate(this.cityChange){
+    print(cityChange.toString() + 'ooooooooooooooooooo');
+  }
+}
+class AreasOnChange extends CreateorderState{
+  Areas newArea;
+  AreasOnChange(this.newArea);
 }

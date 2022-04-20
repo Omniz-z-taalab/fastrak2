@@ -1,12 +1,12 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/PickupFrom/createorder_bloc.dart';
+import 'package:fastrak2/Models/Api/CitiesApi.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:country_picker/src/country_parser.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -22,16 +22,21 @@ class SetAddressFirstUser extends StatefulWidget {
 class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
   String countryName = '20';
 
-  String CityDropDown = 'Cairo';
-  var elemant = [
-    'Cairo',
-  ];
+  dynamic CityDropDown = 'Cairo';
+  var elemant = [];
 
   String Dropdownvalue = 'Maadi';
   var item = [
     'Maadi',
   ];
 
+  List<Cities> cities = [];
+  Cities city;
+  List<Areas> areaa = [];
+  List<Cities> ee;
+  Areas are;
+  var selected;
+  bool chance;
   final form = GlobalKey<FormState>();
   TextEditingController BuildingName = TextEditingController();
   TextEditingController ClintName = TextEditingController();
@@ -41,15 +46,33 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
   TextEditingController phone = TextEditingController();
 
   //
-
   @override
+  void initState() {
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => CreateorderBloc(),
         child: BlocConsumer<CreateorderBloc, CreateorderState>(
             listener: (context, state) {
-          if (state is OrderSuccess) {
+          if (state is CheckDataSuccess) {
+            cities = state.data;
+            print(areaa);
+          }
+          if (state is AreasOnChange) {
+            print(state.newArea.name.toString() + 'qwqwqwqwqwqwq');
+          }
+          if (state is Changestate) {
+            city = state.cityChange;
+            are = null;
+            areaa = state.cityChange.areas;
+            print(city.toString() + 'zaaaaaaaaaa');
+          }
+          print(areaa);
+          if (state is SuccessFirstUser) {
             print('zzzzzzzzzzzzzzzz');
             widget.firstUser = state.value;
             Navigator.pop(context, widget.firstUser);
@@ -77,7 +100,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                 leading: BackButton(
                   color: Colors.black,
                   onPressed: () {
-
                     FocusScope.of(context).requestFocus(FocusNode());
                     Navigator.pop(context);
                   },
@@ -202,24 +224,36 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                 Border.all(color: Colors.grey),
                                             borderRadius:
                                                 BorderRadius.circular(10)),
-                                        child: DropdownButton(
+                                        child: DropdownButtonFormField<Cities>(
+                                          value: city,
                                           isExpanded: true,
-                                          style: new TextStyle(
-                                            color: Colors.black38,
-                                          ),
-                                          value: CityDropDown,
-                                          items: elemant.map((String ele) {
-                                            return DropdownMenuItem(
-                                              value: ele,
-                                              child: Text(ele),
+                                          onChanged: (Cities Value) {
+                                            city = Value;
+                                            BlocProvider.of<CreateorderBloc>(
+                                                    context)
+                                                .add(onChange(city));
+                                            print(city.name);
+                                            print(city.id.toString() +
+                                                'ashhhhhhhhhrakaaaaat');
+                                          },
+                                          items: cities.map((Cities user) {
+                                            return new DropdownMenuItem<Cities>(
+
+                                              value: user,
+                                              child: new Text(
+                                                user.name,
+                                                style: new TextStyle(
+                                                    color: Colors.black),
+                                              ),
                                             );
                                           }).toList(),
-                                          onChanged: (String Value) {
-                                            setState(() {
-                                              CityDropDown = Value;
-                                            });
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.name.isEmpty) {
+                                              return "build number field is required";
+                                            }
+                                            return null;
                                           },
-                                          underline: SizedBox(),
                                         ),
                                       ),
                                     ),
@@ -248,27 +282,35 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                 Border.all(color: Colors.grey),
                                             borderRadius:
                                                 BorderRadius.circular(10)),
-                                        child: DropdownButton(
+                                        child: DropdownButtonFormField<Areas>(
+                                          value:  are,
                                           isExpanded: true,
-                                          style: new TextStyle(
-                                            color: Colors.black38,
-                                          ),
+                                          onChanged: (Areas Value) {
+                                            are = Value;
+                                            BlocProvider.of<CreateorderBloc>(
+                                                    context)
+                                                .add(onAreaChange(are));
+                                          },
 
-                                          value: Dropdownvalue,
+                                          items: areaa.map((Areas value) {
+                                            return new DropdownMenuItem<Areas>(
+                                              key: Key(value.id),
+                                              value: value,
+                                              child: new Text(
+                                                value.name,
+                                                style: new TextStyle(
+                                                    color: Colors.black),
+                                              ),
 
-                                          // Array list of items
-                                          items: item.map((String items) {
-                                            return DropdownMenuItem(
-                                              value: items,
-                                              child: Text(items),
                                             );
                                           }).toList(),
-                                          onChanged: (String newValue) {
-                                            setState(() {
-                                              Dropdownvalue = newValue;
-                                            });
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.name.isEmpty) {
+                                              return "build number field is required";
+                                            }
+                                            return null;
                                           },
-                                          underline: SizedBox(),
                                         ),
                                       ),
                                     ),
@@ -440,7 +482,6 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 15.0),
@@ -791,7 +832,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                               address.text,
                                                                               phone.text,
                                                                               Apartment.text,
-                                                                              FloorNumber.text));
+                                                                              FloorNumber.text,are,city));
                                                                         }
                                                                       },
                                                                       child: Align(
@@ -811,7 +852,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                   )),
                                                             ),
                                                           ),
-                                                        ]) // }))),
+                                                        ]),
                                                   ]),
                                             ),
                                           ]),

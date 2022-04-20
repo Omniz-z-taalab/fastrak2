@@ -19,7 +19,10 @@ class ShipmentCostScreen extends StatefulWidget {
   String description;
   int integer;
   String DeliveryTime;
-
+bool isSwitched;
+int index;
+int eeeee;
+int value;
   ShipmentCostScreen(
       this.num,
       this.newuser,
@@ -29,7 +32,7 @@ class ShipmentCostScreen extends StatefulWidget {
       this.collectAmount,
       this.description,
       this.integer,
-      this.DeliveryTime);
+      this.DeliveryTime,this.isSwitched,this.index,this.eeeee,this.value);
 
   @override
   State<ShipmentCostScreen> createState() => _ShipmentCostScreenState();
@@ -43,19 +46,20 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
   int current = 0;
   String Textt;
   String newText;
-
-  // int index = 0;
+String CachDelivery ='Cash on Delivery' ;
+String CachPickup ='Cash on Pickup';
 
   void initState() {
     // TODO: implement initState
     super.initState();
-
+      print(widget.eeeee);
+      print(widget.integer);
+      print('cmmvmnbnbnvmcmmccmcmcmc');
     print(widget.num);
     print('aaaaaaaaaaaa');
     print(widget.newman);
     print(widget.newman.address + widget.newman.phone);
     print('bbbbbbbbbbbb');
-
     print(widget.DeliveryTime);
     print('ccccccccccccc');
 
@@ -87,7 +91,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
             listener: (context, state) {
           if (state is CodeSuccess) {
             print(state.value.shippingFees);
-            widget.integer = state.value.shippingFees;
+            widget.eeeee = state.value.shippingFees;
             print('eslaaaaaaaaaam');
             Fluttertoast.showToast(
                 msg: 'Success Code',
@@ -112,6 +116,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
           if (state is ChangeButtonSuccess) {
             // print(state.current);
             current = state.State;
+
             // print('vvvvvvvvvvvvvvv');
           }
         }, builder: (context, state) {
@@ -217,7 +222,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                                 spreadRadius: 3),
                           ]),
                       child: Text(
-                        '${widget.integer.toString() + widget.num}'
+                        '${widget.eeeee.toString() + widget.num}'
                         'EGP',
                         style:
                             TextStyle(fontSize: 20, color: Color(0xFF4B0082)),
@@ -404,7 +409,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                                                               widget
                                                                   .description +
                                                               widget
-                                                                  .collectAmount);
+                                                                  .collectAmount,);
                                                           BlocProvider.of<
                                                                       ShipmentDetailsBloc>(
                                                                   context)
@@ -414,7 +419,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                                                                   widget
                                                                       .description,
                                                                   widget
-                                                                      .collectAmount));
+                                                                      .collectAmount,widget.index));
                                                         }),
                                                   ),
                                                 ),
@@ -471,7 +476,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text(
+                                   Text(
                                       "Cash on Delivery",
                                       style: TextStyle(
                                           fontSize: 8,
@@ -609,12 +614,14 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (_) =>
                                       LastScreenInOrder(
+                                        widget.isSwitched,
                                         widget.weight,
                                         widget.DeliveryTime,
                                         widget.newman,
                                         widget.newuser,
                                         widget.collectAmount,
                                         widget.description,
+                                        widget.index,widget.integer,widget.eeeee,current,widget.dropdownValue,widget.value
                                       )));
                               }
                             ),
@@ -624,6 +631,7 @@ class _ShipmentCostScreenState extends State<ShipmentCostScreen> {
                 ),
               ],
             ),
+
           );
         }));
 

@@ -9,10 +9,19 @@ class DropOfOrderUser extends DropOfOrderState{
 
 }
 
+class CheckDataSuccess extends DropOfOrderState{
+  List<Cities> data;
+  CheckDataSuccess(this.data);
+}
+
+
 class ErrorSecondUserState extends DropOfOrderState{
   String ctch;
   ErrorSecondUserState(this.ctch);
 
+
+}
+class LoadingSecondUser extends DropOfOrderState {
 }
 class SuccessSecondUser extends DropOfOrderState{
   Data value;
@@ -20,5 +29,14 @@ class SuccessSecondUser extends DropOfOrderState{
     print('Ashhhhhhhhrakaaaaaaat');
   }
 }
-class LoadingSecondUser extends DropOfOrderState {
+class Changestate extends DropOfOrderState{
+  Cities cityChange;
+  List<Areas> areasOnChange;
+  Changestate(this.cityChange,this.areasOnChange){
+    print(cityChange.toString() + 'ooooooooooooooooooo');
+  }
+}
+class AreasOnChange extends DropOfOrderState{
+  Areas newArea;
+  AreasOnChange(this.newArea);
 }

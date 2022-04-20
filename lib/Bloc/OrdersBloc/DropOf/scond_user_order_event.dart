@@ -10,9 +10,27 @@ part of 'scond_user_order_bloc.dart';
   String phone;
   String Apartment;
   String FloorNumber;
-  SecondUserEvent(this.ClintName,this.address,this.BuildingName,this.phone,this.Apartment,this.FloorNumber);
+  Cities ccity;
+  Areas aree;
+  SecondUserEvent(this.ClintName,this.address,this.BuildingName,this.phone,this.Apartment,this.FloorNumber,this.ccity,this.aree);
  }
 
 
+class CheckDataCities extends DropOfOrderEvent{
+
+}
 
 
+class OnChange extends DropOfOrderEvent{
+ Cities ccity;
+ OnChange(this.ccity){
+  print(ccity.name.toString() + 'omniaaaaaaaaa');
+ }
+}
+class OnAreaChange extends DropOfOrderEvent{
+ Areas aree;
+ OnAreaChange(this.aree){
+  print(aree.name.toString() + 'baaaaabaaaaaa');
+ }
+
+}

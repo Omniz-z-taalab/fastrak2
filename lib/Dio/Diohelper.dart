@@ -9,6 +9,7 @@ Dio dio() {
   var headers = {
     'accept': "application/json",
     'content-type': "application/json",
+    'Accept-Language' : 'en',
   };
   if (accessToken != null) {
     headers['Authorization'] = "Bearer $accessToken";

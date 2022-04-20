@@ -42,6 +42,7 @@ dependencies:
   multi_select_flutter: ^3.1.8
   date_field: ^1.0.5
   custom_radio_grouped_button: ^1.0.6
+  intl: ^0.15.8
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -43,3 +43,23 @@ class ButtonSuccess extends ShipmentDetailsState{
   int index;
   ButtonSuccess(this.index);
 }
+class StateSuccess extends ShipmentDetailsState{
+  LastOrderApi value;
+  StateSuccess(this.value){
+    print('lalyyyyyyyy3wn');
+  }
+}
+class switchSuccess extends ShipmentDetailsState{
+  bool switchh;
+  switchSuccess(this.switchh){print(switchh.toString() + '@@@@@@@@@2');}
+}
+class fragileSwitchState extends ShipmentDetailsState{
+  bool fragileSwitch;
+  fragileSwitchState(this.fragileSwitch);
+}
+class DataTimeSuccessState extends ShipmentDetailsState{
+  int value;
+  DataTimeSuccessState(this.value){
+    print(value.toString() + 'taalaaaaaaaaaab');
+  }
+}
