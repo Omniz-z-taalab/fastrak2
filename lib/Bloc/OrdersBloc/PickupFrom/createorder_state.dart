@@ -17,7 +17,7 @@ class CreateorderInitial extends CreateorderState {}
 
 class SuccessFirstUser extends CreateorderState{
 
-  Data value;
+  AdressUser value;
   SuccessFirstUser(this.value){
     print(value.name);
     print('ayyyyyyyy 7aaaaaaagaaaaaaa');

@@ -4,7 +4,7 @@ import 'package:fastrak2/Bloc/OrdersBloc/PickupFrom/PickupFromScreen.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/DropOf/DropofScreen.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentdetailsScreen.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
-import 'package:fastrak2/screens/homelayout/secound.dart';
+import 'package:fastrak2/screens/homelayout/addAddress/getAddress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,14 +24,14 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
   var items = ['Outside city',
     'Inside city'];
 
-  Data SecondUser = new Data();
+  AdressUser SecondUser = new AdressUser();
 
   // String Size;
-  Data firstUser = new Data();
-  Data newuser;
-  Data newman;
+  AdressUser firstUser = new AdressUser();
+  AdressUser newuser;
+  AdressUser newman;
   Dropss() async {
-    Data result = await Navigator.push(context, MaterialPageRoute(
+    AdressUser result = await Navigator.push(context, MaterialPageRoute(
       builder: (BuildContext context) {
         return SetAddressFirstUser(firstUser);
       },
@@ -47,7 +47,7 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
 
   DropDown() async {
     SecondUser.id = 'zayde';
-    Data newresult = await Navigator.push(
+    AdressUser newresult = await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
@@ -303,7 +303,7 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
                                                         MaterialPageRoute(
                                                             builder:
                                                                 (context) =>
-                                                                    Second()));
+                                                                    Dashboard()));
                                                   },
                                                 ),
                                               ),
@@ -485,7 +485,7 @@ class _PickupAddressScreenState extends State<PickupAddressScreen> {
                                                               MaterialPageRoute(
                                                                   builder:
                                                                       (context) =>
-                                                                          Second()));
+                                                                          Dashboard()));
                                                         },
                                                       ),
                                                     ),

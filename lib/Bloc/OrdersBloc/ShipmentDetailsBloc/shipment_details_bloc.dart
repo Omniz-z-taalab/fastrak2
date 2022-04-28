@@ -23,7 +23,7 @@ class ShipmentDetailsBloc
   String hasinsurance = "1";
   String weight ;
   String Discription ;
-  String Collect;
+  String Collect ;
   int State;
   int index ;
   int indexx ;
@@ -48,6 +48,9 @@ int value;
       indexx = event.index;
       weight = event.weight;
       Collect = event.collectAmount;
+      if(event.collectAmount == ''){
+        Collect = '0';
+      }
       SipmentBlocMethod();
     }
     if (event is CheckCode) {
@@ -106,7 +109,7 @@ int value;
       print(onError.toString());
       if (onError is DioError) {
         ApiError ShipmentError = ApiError.fromJson(onError.response.data);
-        print(ShipmentError.errors.first.message);
+        print(ShipmentError.errors);
         emit(ErrorSipmentState(ShipmentError.errors.first.message));
       }
     });

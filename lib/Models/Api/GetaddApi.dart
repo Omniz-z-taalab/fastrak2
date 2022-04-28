@@ -1,12 +1,10 @@
-class SetAddressApi {
-  AdressUser data;
+class GetAdressAPI {
+  Data data;
 
-  SetAddressApi({this.data});
+  GetAdressAPI({this.data});
 
-  SetAddressApi.fromJson(Map<String, dynamic> json) {
-    print('omniaaaaaaaaaa3');
-
-    data = json['data'] != null ? new AdressUser.fromJson(json['data']) : null;
+  GetAdressAPI.fromJson(Map<String, dynamic> json) {
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -18,7 +16,37 @@ class SetAddressApi {
   }
 }
 
-class AdressUser {
+class Data {
+  List<UserAddress> data;
+  Pagination pagination;
+
+  Data({this.data, this.pagination});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <UserAddress>[];
+      json['data'].forEach((v) {
+        data.add(new UserAddress.fromJson(v));
+      });
+    }
+    pagination = json['pagination'] != null
+        ? new Pagination.fromJson(json['pagination'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    if (this.pagination != null) {
+      data['pagination'] = this.pagination.toJson();
+    }
+    return data;
+  }
+}
+
+class UserAddress {
   String id;
   String name;
   String phone;
@@ -30,12 +58,12 @@ class AdressUser {
   String longitude;
   int isHidden;
   Null landmark;
-  Null landlineNumber;
-  Coountry country;
-  City city;
+  String landlineNumber;
+  Ccountry country;
+  Citys city;
   Area area;
 
-  AdressUser(
+  UserAddress(
       {this.id,
         this.name,
         this.phone,
@@ -52,8 +80,7 @@ class AdressUser {
         this.city,
         this.area});
 
-  AdressUser.fromJson(Map<String, dynamic> json) {
-
+  UserAddress.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     phone = json['phone'];
@@ -67,8 +94,8 @@ class AdressUser {
     landmark = json['landmark'];
     landlineNumber = json['landline_number'];
     country =
-    json['country'] != null ? new Coountry.fromJson(json['country']) : null;
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    json['country'] != null ? new Ccountry.fromJson(json['country']) : null;
+    city = json['city'] != null ? new Citys.fromJson(json['city']) : null;
     area = json['area'] != null ? new Area.fromJson(json['area']) : null;
   }
 
@@ -99,16 +126,16 @@ class AdressUser {
   }
 }
 
-class Coountry {
+class Ccountry {
   String id;
   String name;
   int activation;
   Null phoneCode;
   Null currency;
 
-  Coountry({this.id, this.name, this.activation, this.phoneCode, this.currency});
+  Ccountry({this.id, this.name, this.activation, this.phoneCode, this.currency});
 
-  Coountry.fromJson(Map<String, dynamic> json) {
+  Ccountry.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     activation = json['activation'];
@@ -127,14 +154,14 @@ class Coountry {
   }
 }
 
-class City {
+class Citys {
   String id;
   String name;
   bool isInsideCity;
 
-  City({this.id, this.name, this.isInsideCity});
+  Citys({this.id, this.name, this.isInsideCity});
 
-  City.fromJson(Map<String, dynamic> json) {
+  Citys.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     isInsideCity = json['is_inside_city'];
@@ -164,6 +191,39 @@ class Area {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    return data;
+  }
+}
+
+class Pagination {
+  int total;
+  int count;
+  int perPage;
+  int currentPage;
+  int totalPages;
+
+  Pagination(
+      {this.total,
+        this.count,
+        this.perPage,
+        this.currentPage,
+        this.totalPages});
+
+  Pagination.fromJson(Map<String, dynamic> json) {
+    total = json['total'];
+    count = json['count'];
+    perPage = json['per_page'];
+    currentPage = json['current_page'];
+    totalPages = json['total_pages'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total'] = this.total;
+    data['count'] = this.count;
+    data['per_page'] = this.perPage;
+    data['current_page'] = this.currentPage;
+    data['total_pages'] = this.totalPages;
     return data;
   }
 }

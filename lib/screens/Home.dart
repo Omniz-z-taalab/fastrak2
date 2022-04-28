@@ -1,5 +1,6 @@
 import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:fastrak2/screens/homelayout/first.dart';
+import 'package:fastrak2/screens/homelayout/addAddress/getAddress.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -10,7 +11,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
-
+List <Widget> screens = [
+  Homeorder(),
+  Dashboard(),
+];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +87,7 @@ class _HomeState extends State<Home> {
           // selectedItemColor: Color(0xFF4B0082),
         ),
       ),
-      body: Homeorder(),
+      body: screens[currentIndex],
     );
   }
 }

@@ -9,8 +9,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 class LastScreenInOrder extends StatefulWidget {
   String weight;
   String DeliveryTime;
-  Data newman;
-  Data newuser;
+  AdressUser newman;
+  AdressUser newuser;
   String collectAmount;
   String description;
   bool isSwitched;

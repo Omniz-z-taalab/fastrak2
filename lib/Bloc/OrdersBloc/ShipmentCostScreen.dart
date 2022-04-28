@@ -13,8 +13,8 @@ class ShipmentCostScreen extends StatefulWidget {
   String num;
   String dropdownValue;
   String weight;
-  Data newuser;
-  Data newman;
+  AdressUser newuser;
+  AdressUser newman;
   String collectAmount;
   String description;
   int integer;
@@ -90,8 +90,9 @@ String CachPickup ='Cash on Pickup';
         child: BlocConsumer<ShipmentDetailsBloc, ShipmentDetailsState>(
             listener: (context, state) {
           if (state is CodeSuccess) {
-            print(state.value.shippingFees);
-            widget.eeeee = state.value.shippingFees;
+            print(state.value.totalShippingFees.toString() + 'sdsdssdsdddddsdsddsdsds');
+
+            widget.eeeee = state.value.totalShippingFees;
             print('eslaaaaaaaaaam');
             Fluttertoast.showToast(
                 msg: 'Success Code',

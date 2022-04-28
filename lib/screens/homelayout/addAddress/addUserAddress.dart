@@ -1,25 +1,25 @@
+
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:country_picker/country_picker.dart';
+import 'package:fastrak2/Bloc/GetAddressBloc/GetAddressBloc.dart';
+import 'package:fastrak2/Bloc/GetAddressBloc/GetAddressEvent.dart';
+import 'package:fastrak2/Bloc/GetAddressBloc/GetAddressState.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/PickupFrom/createorder_bloc.dart';
 import 'package:fastrak2/Models/Api/CitiesApi.dart';
-import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:country_picker/country_picker.dart';
 
-class SetAddressFirstUser extends StatefulWidget {
-  AdressUser firstUser;
-
-  SetAddressFirstUser(this.firstUser);
+class addUserAddress extends StatefulWidget {
+  const addUserAddress({Key key}) : super(key: key);
 
   @override
-  State<SetAddressFirstUser> createState() => _SetAddressFirstUserState();
+  State<addUserAddress> createState() => _addUserAddressState();
 }
 
-class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
+class _addUserAddressState extends State<addUserAddress> {
   String countryName = '20';
 
   dynamic CityDropDown = 'Cairo';
@@ -34,7 +34,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
   Cities city;
   List<Areas> areaa = [];
   List<Cities> ee;
-  Areas are;
+  Areas areas;
   var selected;
   bool chance;
   final form = GlobalKey<FormState>();
@@ -55,39 +55,29 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => CreateorderBloc(),
-        child: BlocConsumer<CreateorderBloc, CreateorderState>(
+        create: (context) => GetAddressBloc(),
+        child: BlocConsumer<GetAddressBloc, GetAddressState>(
             listener: (context, state) {
-          if (state is CheckDataSuccess) {
-            cities = state.data;
-            print(areaa);
-          }
-          if (state is AreasOnChange) {
-            print(state.newArea.name.toString() + 'qwqwqwqwqwqwq');
-          }
-          if (state is Changestate) {
-            city = state.cityChange;
-            are = null;
-            areaa = state.cityChange.areas;
-            print(city.toString() + 'zaaaaaaaaaa');
-          }
-          print(areaa);
-          if (state is SuccessFirstUser) {
-            print('zzzzzzzzzzzzzzzz');
-            widget.firstUser = state.value;
-            Navigator.pop(context, widget.firstUser);
-          }
-          if (state is ErrorState) {
-            Fluttertoast.showToast(
-                msg: state.ctch.toString(),
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.yellow,
-                textColor: Colors.black,
-                fontSize: 10.0);
-          }
-        }, builder: (context, state) {
+              if (state is SuccessAddState) {
+                cities = state.data;
+                print(areaa);
+              }
+              if (state is ChangeState) {
+                city = state.cityChange;
+                areas = null;
+                areaa = state.cityChange.areas;
+                print(city.toString() + 'zaaaaaaaaaa');
+              }
+              print(areaa);
+              if (state is SucessAdd) {
+                print('zzzzzzzzzzzzzzzz');
+                print(state.value.city.toString() +'sasaaaaaaaaaa');
+                // BlocProvider.of<GetAddressBloc>(context).add(startScreenEvent());
+                Navigator.pop(context);
+
+              }
+
+            }, builder: (context, state) {
           return Scaffold(
               backgroundColor: Color(0xFFF9FAFF),
               appBar: new AppBar(
@@ -148,7 +138,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 15.0),
+                                      const EdgeInsets.only(left: 15.0),
                                       child: Text(
                                         "Client Name",
                                         style: TextStyle(color: Colors.black38),
@@ -168,7 +158,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                           decoration: InputDecoration(
                                             hintText: "clint name",
                                             hintStyle:
-                                                TextStyle(color: Colors.grey),
+                                            TextStyle(color: Colors.grey),
                                             contentPadding: EdgeInsets.only(
                                                 top: 3,
                                                 bottom: 3,
@@ -177,7 +167,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                             fillColor: Colors.white,
                                             border: OutlineInputBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                               borderSide: BorderSide(
                                                 color: Colors.grey,
                                               ),
@@ -186,7 +176,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                               borderSide: BorderSide(
                                                   color: Colors.grey.shade500),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                             ),
                                           ),
                                           validator: (value) {
@@ -204,7 +194,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 15.0),
+                                      const EdgeInsets.only(left: 15.0),
                                       child: Text(
                                         "City",
                                         style: TextStyle(color: Colors.black38),
@@ -215,23 +205,23 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(right: 15, left: 15),
+                                      EdgeInsets.only(right: 15, left: 15),
                                       child: Container(
                                         width: 700,
                                         height: 50,
                                         decoration: BoxDecoration(
                                             border:
-                                                Border.all(color: Colors.grey),
+                                            Border.all(color: Colors.grey),
                                             borderRadius:
-                                                BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                         child: DropdownButtonFormField<Cities>(
                                           value: city,
                                           isExpanded: true,
                                           onChanged: (Cities Value) {
                                             city = Value;
-                                            BlocProvider.of<CreateorderBloc>(
-                                                    context)
-                                                .add(onChange(city));
+                                            BlocProvider.of<GetAddressBloc>(
+                                                context)
+                                                .add(OncityChange(city));
                                             print(city.name);
                                             print(city.id.toString() +
                                                 'ashhhhhhhhhrakaaaaat');
@@ -262,7 +252,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 15.0),
+                                      const EdgeInsets.only(left: 15.0),
                                       child: Text(
                                         "Area",
                                         style: TextStyle(color: Colors.black38),
@@ -273,23 +263,23 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(right: 15, left: 15),
+                                      EdgeInsets.only(right: 15, left: 15),
                                       child: Container(
                                         width: 400,
                                         height: 50,
                                         decoration: BoxDecoration(
                                             border:
-                                                Border.all(color: Colors.grey),
+                                            Border.all(color: Colors.grey),
                                             borderRadius:
-                                                BorderRadius.circular(10)),
+                                            BorderRadius.circular(10)),
                                         child: DropdownButtonFormField<Areas>(
-                                          value:  are,
+                                          value:  areas,
                                           isExpanded: true,
                                           onChanged: (Areas Value) {
-                                            are = Value;
-                                            BlocProvider.of<CreateorderBloc>(
-                                                    context)
-                                                .add(onAreaChange(are));
+                                            areas = Value;
+                                            BlocProvider.of<GetAddressBloc>(
+                                                context)
+                                                .add(onAreachange(areas));
                                           },
 
                                           items: areaa.map((Areas value) {
@@ -319,7 +309,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 15.0),
+                                      const EdgeInsets.only(left: 15.0),
                                       child: Text(
                                         "Build Name",
                                         style: TextStyle(color: Colors.black38),
@@ -338,7 +328,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                         decoration: InputDecoration(
                                           hintText: "Build Number",
                                           hintStyle:
-                                              TextStyle(color: Colors.grey),
+                                          TextStyle(color: Colors.grey),
                                           contentPadding: EdgeInsets.only(
                                               top: 3,
                                               bottom: 3,
@@ -347,7 +337,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                           fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                               color: Colors.grey,
                                             ),
@@ -356,7 +346,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                             borderSide: BorderSide(
                                                 color: Colors.grey.shade500),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                         validator: (value) {
@@ -372,7 +362,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 15.0),
+                                      const EdgeInsets.only(left: 15.0),
                                       child: Text(
                                         "Full Address",
                                         style: TextStyle(color: Colors.black38),
@@ -391,7 +381,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                         decoration: InputDecoration(
                                           hintText: "address",
                                           hintStyle:
-                                              TextStyle(color: Colors.grey),
+                                          TextStyle(color: Colors.grey),
                                           contentPadding: EdgeInsets.only(
                                               top: 3,
                                               bottom: 3,
@@ -400,7 +390,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                           fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                               color: Colors.grey,
                                             ),
@@ -409,7 +399,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                             borderSide: BorderSide(
                                                 color: Colors.grey.shade500),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                         validator: (value) {
@@ -425,7 +415,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                     ),
                                     Padding(
                                       padding:
-                                          const EdgeInsets.only(left: 15.0),
+                                      const EdgeInsets.only(left: 15.0),
                                       child: Text(
                                         "Floor Number",
                                         style: TextStyle(color: Colors.black38),
@@ -444,7 +434,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                         decoration: InputDecoration(
                                           hintText: "floor number",
                                           hintStyle:
-                                              TextStyle(color: Colors.grey),
+                                          TextStyle(color: Colors.grey),
                                           contentPadding: EdgeInsets.only(
                                               top: 3,
                                               bottom: 3,
@@ -453,7 +443,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                           fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             borderSide: BorderSide(
                                               color: Colors.grey,
                                             ),
@@ -462,7 +452,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                             borderSide: BorderSide(
                                                 color: Colors.grey.shade500),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                           ),
                                         ),
                                         validator: (value) {
@@ -480,7 +470,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                       width: 500,
                                       child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -502,34 +492,34 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                 child: TextFormField(
                                                   maxLines: 1,
                                                   keyboardType:
-                                                      TextInputType.text,
+                                                  TextInputType.text,
                                                   decoration: InputDecoration(
                                                     hintText: "apartment",
                                                     hintStyle: TextStyle(
                                                         color: Colors.grey),
                                                     contentPadding:
-                                                        EdgeInsets.only(
-                                                            top: 3,
-                                                            bottom: 3,
-                                                            right: 5,
-                                                            left: 5),
+                                                    EdgeInsets.only(
+                                                        top: 3,
+                                                        bottom: 3,
+                                                        right: 5,
+                                                        left: 5),
                                                     fillColor: Colors.white,
                                                     border: OutlineInputBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                      BorderRadius.circular(
+                                                          10),
                                                       borderSide: BorderSide(
                                                         color: Colors.grey,
                                                       ),
                                                     ),
                                                     focusedBorder:
-                                                        OutlineInputBorder(
+                                                    OutlineInputBorder(
                                                       borderSide: BorderSide(
                                                           color: Colors
                                                               .grey.shade500),
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                      BorderRadius.circular(
+                                                          10),
                                                     ),
                                                   ),
                                                 ),
@@ -542,17 +532,17 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                               width: 500,
                                               child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets.only(
-                                                              left: 15.0),
+                                                      const EdgeInsets.only(
+                                                          left: 15.0),
                                                       child: Text(
                                                         "LandMark (Optional)",
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.black38),
+                                                            Colors.black38),
                                                       ),
                                                     ),
                                                     SizedBox(
@@ -562,51 +552,51 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                       width: 700,
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets.only(
-                                                                right: 15,
-                                                                left: 15),
+                                                        EdgeInsets.only(
+                                                            right: 15,
+                                                            left: 15),
                                                         child: TextFormField(
                                                           maxLines: 1,
                                                           keyboardType:
-                                                              TextInputType
-                                                                  .text,
+                                                          TextInputType
+                                                              .text,
                                                           decoration:
-                                                              InputDecoration(
+                                                          InputDecoration(
                                                             hintText:
-                                                                "LandMark",
+                                                            "LandMark",
                                                             hintStyle: TextStyle(
                                                                 color: Colors
                                                                     .grey),
                                                             contentPadding:
-                                                                EdgeInsets.only(
-                                                                    top: 3,
-                                                                    bottom: 3,
-                                                                    right: 5,
-                                                                    left: 5),
+                                                            EdgeInsets.only(
+                                                                top: 3,
+                                                                bottom: 3,
+                                                                right: 5,
+                                                                left: 5),
                                                             fillColor:
-                                                                Colors.white,
+                                                            Colors.white,
                                                             border:
-                                                                OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  10),
                                                               borderSide:
-                                                                  BorderSide(
+                                                              BorderSide(
                                                                 color:
-                                                                    Colors.grey,
+                                                                Colors.grey,
                                                               ),
                                                             ),
                                                             focusedBorder:
-                                                                OutlineInputBorder(
+                                                            OutlineInputBorder(
                                                               borderSide: BorderSide(
                                                                   color: Colors
                                                                       .grey
                                                                       .shade500),
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  10),
                                                             ),
                                                           ),
                                                         ),
@@ -617,13 +607,13 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets.only(
-                                                              left: 15.0),
+                                                      const EdgeInsets.only(
+                                                          left: 15.0),
                                                       child: Text(
                                                         "phone number",
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.black38),
+                                                            Colors.black38),
                                                       ),
                                                     ),
                                                     SizedBox(
@@ -631,52 +621,52 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets.only(
-                                                              left: 15.0,
-                                                              right: 15),
+                                                      const EdgeInsets.only(
+                                                          left: 15.0,
+                                                          right: 15),
                                                       child: TextFormField(
                                                         controller: phone,
                                                         maxLines: 1,
                                                         keyboardType:
-                                                            TextInputType
-                                                                .number,
+                                                        TextInputType
+                                                            .number,
                                                         decoration:
-                                                            InputDecoration(
+                                                        InputDecoration(
                                                           hintText:
-                                                              "phone Number",
+                                                          "phone Number",
                                                           hintStyle: TextStyle(
                                                               color:
-                                                                  Colors.grey),
+                                                              Colors.grey),
                                                           contentPadding:
-                                                              EdgeInsets.only(
-                                                                  top: 3,
-                                                                  bottom: 3,
-                                                                  right: 5,
-                                                                  left: 5),
+                                                          EdgeInsets.only(
+                                                              top: 3,
+                                                              bottom: 3,
+                                                              right: 5,
+                                                              left: 5),
                                                           fillColor:
-                                                              Colors.white,
+                                                          Colors.white,
                                                           border:
-                                                              OutlineInputBorder(
+                                                          OutlineInputBorder(
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
+                                                            BorderRadius
+                                                                .circular(
+                                                                10),
                                                             borderSide:
-                                                                BorderSide(
+                                                            BorderSide(
                                                               color:
-                                                                  Colors.grey,
+                                                              Colors.grey,
                                                             ),
                                                           ),
                                                           focusedBorder:
-                                                              OutlineInputBorder(
+                                                          OutlineInputBorder(
                                                             borderSide: BorderSide(
                                                                 color: Colors
                                                                     .grey
                                                                     .shade500),
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
+                                                            BorderRadius
+                                                                .circular(
+                                                                10),
                                                           ),
                                                           prefixIcon: Container(
                                                             width: 60,
@@ -686,38 +676,38 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                   onTap: () {
                                                                     showCountryPicker(
                                                                       context:
-                                                                          context,
+                                                                      context,
                                                                       showPhoneCode:
-                                                                          true,
+                                                                      true,
                                                                       onSelect:
                                                                           (Country
-                                                                              country) {
+                                                                      country) {
                                                                         print(
                                                                             "FF: ${country.countryCode}");
                                                                         setState(
-                                                                            () {
-                                                                          countryName =
-                                                                              country.phoneCode;
-                                                                        });
+                                                                                () {
+                                                                              countryName =
+                                                                                  country.phoneCode;
+                                                                            });
                                                                       },
                                                                     );
                                                                   },
                                                                   child:
-                                                                      Container(
+                                                                  Container(
                                                                     margin: EdgeInsets.only(
                                                                         right:
-                                                                            17,
+                                                                        17,
                                                                         left:
-                                                                            15,
+                                                                        15,
                                                                         top: 8),
                                                                     height: 20,
                                                                     child: Text(
                                                                       '+${countryName}',
                                                                       style: TextStyle(
                                                                           fontSize:
-                                                                              12,
+                                                                          12,
                                                                           wordSpacing:
-                                                                              10,
+                                                                          10,
                                                                           color: Colors
                                                                               .grey
                                                                               .shade700),
@@ -734,10 +724,10 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                       .grey
                                                                       .shade300,
                                                                   child:
-                                                                      SizedBox(
+                                                                  SizedBox(
                                                                     width: 1.0,
                                                                     height:
-                                                                        25.0,
+                                                                    25.0,
                                                                   ),
                                                                 ),
                                                               ],
@@ -751,7 +741,7 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                               10),
                                                           FilteringTextInputFormatter
                                                               .allow(RegExp(
-                                                                  r'^[1-9][0-9]*$'))
+                                                              r'^[1-9][0-9]*$'))
                                                         ],
                                                         validator: (value) {
                                                           if (value == null ||
@@ -771,20 +761,20 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                     ),
                                                     Column(
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
+                                                        CrossAxisAlignment
+                                                            .center,
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15.0,
-                                                                    right: 15,
-                                                                    top: 15,
-                                                                    bottom: 15),
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 15.0,
+                                                                right: 15,
+                                                                top: 15,
+                                                                bottom: 15),
                                                             child: Container(
                                                               width: 380,
                                                               height: 50,
@@ -792,63 +782,63 @@ class _SetAddressFirstUserState extends State<SetAddressFirstUser> {
                                                                   style: TextButton
                                                                       .styleFrom(
                                                                     padding:
-                                                                        EdgeInsets
-                                                                            .only(
+                                                                    EdgeInsets
+                                                                        .only(
                                                                       left:
-                                                                          15.0,
+                                                                      15.0,
                                                                       right:
-                                                                          15.0,
+                                                                      15.0,
                                                                     ),
                                                                     primary: Colors
                                                                         .black,
                                                                     textStyle: const TextStyle(
                                                                         fontSize:
-                                                                            20),
+                                                                        20),
                                                                     backgroundColor:
-                                                                        Color(
-                                                                            0xFF4B0082),
+                                                                    Color(
+                                                                        0xFF4B0082),
                                                                     shape:
-                                                                        RoundedRectangleBorder(
+                                                                    RoundedRectangleBorder(
                                                                       borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0),
+                                                                      BorderRadius.circular(
+                                                                          10.0),
                                                                     ),
                                                                   ),
                                                                   child:
-                                                                      ConditionalBuilder(
+                                                                  ConditionalBuilder(
                                                                     condition: state
-                                                                        is! CreateLoadingState,
+                                                                    is! CreateLoadingState,
                                                                     builder:
                                                                         (context) =>
-                                                                            TextButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        if (form
-                                                                            .currentState
-                                                                            .validate()) {
-                                                                          BlocProvider.of<CreateorderBloc>(context).add(SendAddress(
-                                                                              ClintName.text,
-                                                                              BuildingName.text,
-                                                                              address.text,
-                                                                              phone.text,
-                                                                              Apartment.text,
-                                                                              FloorNumber.text,are,city));
-                                                                        }
-                                                                      },
-                                                                      child: Align(
-                                                                          alignment: Alignment.center,
-                                                                          child: Text(
-                                                                            'NEXT',
-                                                                            style:
+                                                                        TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            if (form
+                                                                                .currentState
+                                                                                .validate()) {
+                                                                              BlocProvider.of<GetAddressBloc>(context).add(AddAddress(
+                                                                                  ClintName.text,
+                                                                                  BuildingName.text,
+                                                                                  address.text,
+                                                                                  phone.text,
+                                                                                  Apartment.text,
+                                                                                  FloorNumber.text,areas,city));
+                                                                            }
+                                                                          },
+                                                                          child: Align(
+                                                                              alignment: Alignment.center,
+                                                                              child: Text(
+                                                                                'NEXT',
+                                                                                style:
                                                                                 TextStyle(fontSize: 14, color: Colors.white),
-                                                                          )),
-                                                                    ),
+                                                                              )),
+                                                                        ),
                                                                     fallback:
                                                                         (context) =>
-                                                                            Center(
-                                                                      child:
+                                                                        Center(
+                                                                          child:
                                                                           CircularProgressIndicator(),
-                                                                    ),
+                                                                        ),
                                                                   )),
                                                             ),
                                                           ),

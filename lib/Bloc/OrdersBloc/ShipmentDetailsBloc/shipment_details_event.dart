@@ -4,12 +4,12 @@ part of 'shipment_details_bloc.dart';
  class ShipmentDetailsEvent {}
 
  class SendData extends ShipmentDetailsEvent{
- String collectAmount;
+ String collectAmount ;
  String description;
   // String DeliveryTime;
  String weight;
  int index;
- SendData(this.collectAmount,this.description,this.weight,this.index){
+ SendData(this.collectAmount,this.description,this.weight,this.index,){
   print(index);
  print('paaaaapaaaaaaa');
  }}
@@ -42,9 +42,9 @@ class eventSwitch extends ShipmentDetailsEvent{
 class eveent extends ShipmentDetailsEvent{
  String weight;
  String DeliveryTime;
- Data newman;
- Data newuser;
- String collectAmount;
+ AdressUser newman;
+ AdressUser newuser;
+ String collectAmount = '0';
  String description;
  bool isSwitched;
  int index;

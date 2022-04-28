@@ -6,7 +6,6 @@ import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/Models/Api/OrderList.dart';
 import 'package:fastrak2/network/endpoint.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/LocationsScreen.dart';
-import 'package:fastrak2/screens/homelayout/secound.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -86,7 +85,7 @@ class _HomeorderState extends State<Homeorder>
     '1.5 ',
     '2 ',
     '2.5',
-    '3 Kg',
+    '3 ',
   ];
 
   @override
@@ -108,10 +107,7 @@ class _HomeorderState extends State<Homeorder>
         create: (context) => CreateorderBloc(),
         child: BlocConsumer<CreateorderBloc, CreateorderState>(
             listener: (context, state) {
-              if(state is CheckDataSuccess){
-                // print(state.data.first.cities.first.isInsideCity);
                 print('>>>>>>>>>>>>>>>>');
-              }
             },
             builder: (context, state) {
               return Column(children: <Widget>[
@@ -243,15 +239,21 @@ class _HomeorderState extends State<Homeorder>
                                     _currentIndex = 1;
                                   });
                                 },
-                                child: new Text(
-                                  "shipments History",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: _currentIndex == 1
-                                        ? Colors.white
-                                        : Color(0xFF4B0082),
-                                    // Color(0xFF6B778D)),
+                                child: InkWell(
+                                  child: new Text(
+                                    "shipments History",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: _currentIndex == 1
+                                          ? Colors.white
+                                          : Color(0xFF4B0082),
+                                      // Color(0xFF6B778D)),
+                                    ),
                                   ),
+                                  onTap: (){
+                                    BlocProvider.of<CreateorderBloc>(context)
+                                        .add(listOrderEvent(page));
+                                  },
                                 )),
                           ),
                         ],
@@ -373,148 +375,148 @@ class _HomeorderState extends State<Homeorder>
                                   offset: Offset(0, 2),
                                 ),
                               ]),
-                              //                   child: FutureBuilder<List<Order>>(
-                              //                     future: fetchData(),
-                              //                     builder: (context, snapshot) {
-                              //                       if (snapshot.hasData) {
-                              //                         return Stack(children: [
-                              //                           ListView.builder(
-                              //                             controller: scrollController,
-                              //                             itemCount: snapshot.data.length,
-                              //                             itemBuilder: (_, index) => Container(
-                              //                               child: Container(
-                              //                                 margin: EdgeInsets.symmetric(
-                              //                                     horizontal: 10, vertical: 10),
-                              //                                 padding: EdgeInsets.all(7.0),
-                              //                                 decoration: BoxDecoration(
-                              //                                     color: Colors.white,
-                              //                                     borderRadius:
-                              //                                         BorderRadius.circular(15.0),
-                              //                                     border:
-                              //                                         Border.all(color: Colors.white12),
-                              //                                     boxShadow: [
-                              //                                       BoxShadow(
-                              //                                           color: Colors.purple.shade100
-                              //                                               .withOpacity(.02),
-                              //                                           spreadRadius: 5),
-                              //                                     ]),
-                              //                                 child: Column(
-                              //                                   mainAxisAlignment:
-                              //                                       MainAxisAlignment.start,
-                              //                                   crossAxisAlignment:
-                              //                                       CrossAxisAlignment.start,
-                              //                                   children: [
-                              //                                     Row(
-                              //                                       children: [
-                              //                                         Container(
-                              //                                           child: Image.asset(
-                              //                                             'images/Car.png',
-                              //                                             width: 65,
-                              //                                             height: 120,
-                              //                                           ),
-                              //                                           padding: EdgeInsets.only(
-                              //                                             right: 10,
-                              //                                             top: 5
-                              //                                           ),
-                              //                                         ),
-                              //                                         Column(
-                              //                                           children: [
-                              //                                             Padding(
-                              //                                               padding:
-                              //                                                   const EdgeInsets.only(
-                              //                                                       right: 2.0),
-                              //                                               child: Container(
-                              //                                                 width: 260,
-                              //                                                 height: 35,
-                              //                                                 decoration: BoxDecoration(
-                              //                                                     color: Colors
-                              //                                                         .grey.shade50,
-                              //                                                     borderRadius:
-                              //                                                         BorderRadius
-                              //                                                             .circular(7.0),
-                              //                                                     border: Border.all(
-                              //                                                         color:
-                              //                                                             Colors.white12),
-                              //                                                     boxShadow: [
-                              //                                                       BoxShadow(
-                              //                                                           color: Colors
-                              //                                                               .purple
-                              //                                                               .shade100
-                              //                                                               .withOpacity(
-                              //                                                                   .02),
-                              //                                                           spreadRadius: 5),
-                              //                                                     ]),
-                              //                                                 padding: EdgeInsets.only(
-                              //                                                     top: 7,
-                              //                                                     bottom: 5,
-                              //                                                     left: 10,
-                              //                                                 ),
-                              //                                                 child: Text(
-                              //                                                   "${'Shipment ID:' + snapshot.data[index].orderId}",
-                              //                                                   style: TextStyle(
-                              //                                                     fontSize: 14.0,
-                              //                                                     fontWeight:
-                              //                                                         FontWeight.bold,
-                              //                                                   ),
-                              //                                                 ),
-                              //                                               ),
-                              //                                             ),
-                              //                                             SizedBox(
-                              //                                               height: 10,
-                              //                                             ),
-                              //                                             Padding(
-                              //                                               padding:
-                              //                                                   const EdgeInsets.only(
-                              //                                                       right: 2.0),
-                              //                                               child: Container(
-                              //                                                 width: 260,
-                              //                                                 height: 35,
-                              //                                                 padding: EdgeInsets.only(
-                              //                                                     top: 9,
-                              //                                                     bottom: 5,
-                              //                                                     left: 50,
-                              //                                                 right: 50),
-                              //                                                 decoration: BoxDecoration(
-                              //                                                   color:
-                              //                                                       Colors.grey.shade50,
-                              //                                                   borderRadius:
-                              //                                                       BorderRadius.circular(
-                              //                                                           7.0),
-                              //                                                   border: Border.all(
-                              //                                                       color:
-                              //                                                           Colors.white12),
-                              //                                                 ),
-                              //                                                 child: Text(
-                              //                                                   "At the hub",
-                              //                                                   style: TextStyle(
-                              //                                                     fontSize: 14.0,
-                              //                                                     fontWeight:
-                              //                                                         FontWeight.bold,
-                              //                                                   ),
-                              //                                                 ),
-                              //                                               ),
-                              //                                             ),
-                              //                                           ],
-                              //                                         ),
-                              //                                         SizedBox(height: 10),
-                              //                                       ],
-                              //                                     ),
-                              //                                   ],
-                              //                                 ),
-                              //                               ),
-                              //                             ),
-                              //                           ),
-                              //                         ]);
-                              //                       } else {
-                              //                         return Center(
-                              //                             child: Text('No Orders',
-                              //                                 style: TextStyle(
-                              //                                     color: Color(0xFF4B0082),
-                              //                                     fontWeight: FontWeight.bold,
-                              //                                     fontSize: 20)));
-                              //                       }
-                              //                     },
-                              //                   ),
+                                                child: FutureBuilder<List<Order>>(
+                                                  // future: fetchData(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Stack(children: [
+                                                        ListView.builder(
+                                                          controller: scrollController,
+                                                          itemCount: snapshot.data.length,
+                                                          itemBuilder: (_, index) => Container(
+                                                            child: Container(
+                                                              margin: EdgeInsets.symmetric(
+                                                                  horizontal: 10, vertical: 10),
+                                                              padding: EdgeInsets.all(7.0),
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors.white,
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(15.0),
+                                                                  border:
+                                                                      Border.all(color: Colors.white12),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        color: Colors.purple.shade100
+                                                                            .withOpacity(.02),
+                                                                        spreadRadius: 5),
+                                                                  ]),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment.start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                        child: Image.asset(
+                                                                          'images/Car.png',
+                                                                          width: 65,
+                                                                          height: 120,
+                                                                        ),
+                                                                        padding: EdgeInsets.only(
+                                                                          right: 10,
+                                                                          top: 5
+                                                                        ),
+                                                                      ),
+                                                                      Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(
+                                                                                    right: 2.0),
+                                                                            child: Container(
+                                                                              width: 260,
+                                                                              height: 35,
+                                                                              decoration: BoxDecoration(
+                                                                                  color: Colors
+                                                                                      .grey.shade50,
+                                                                                  borderRadius:
+                                                                                      BorderRadius
+                                                                                          .circular(7.0),
+                                                                                  border: Border.all(
+                                                                                      color:
+                                                                                          Colors.white12),
+                                                                                  boxShadow: [
+                                                                                    BoxShadow(
+                                                                                        color: Colors
+                                                                                            .purple
+                                                                                            .shade100
+                                                                                            .withOpacity(
+                                                                                                .02),
+                                                                                        spreadRadius: 5),
+                                                                                  ]),
+                                                                              padding: EdgeInsets.only(
+                                                                                  top: 7,
+                                                                                  bottom: 5,
+                                                                                  left: 10,
+                                                                              ),
+                                                                              child: Text(
+                                                                                "${'Shipment ID:' + snapshot.data[index].orderId}",
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14.0,
+                                                                                  fontWeight:
+                                                                                      FontWeight.bold,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 10,
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(
+                                                                                    right: 2.0),
+                                                                            child: Container(
+                                                                              width: 260,
+                                                                              height: 35,
+                                                                              padding: EdgeInsets.only(
+                                                                                  top: 9,
+                                                                                  bottom: 5,
+                                                                                  left: 50,
+                                                                              right: 50),
+                                                                              decoration: BoxDecoration(
+                                                                                color:
+                                                                                    Colors.grey.shade50,
+                                                                                borderRadius:
+                                                                                    BorderRadius.circular(
+                                                                                        7.0),
+                                                                                border: Border.all(
+                                                                                    color:
+                                                                                        Colors.white12),
+                                                                              ),
+                                                                              child: Text(
+                                                                                "At the hub",
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14.0,
+                                                                                  fontWeight:
+                                                                                      FontWeight.bold,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      SizedBox(height: 10),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ]);
+                                                    } else {
+                                                      return Center(
+                                                          child: Text('No Orders',
+                                                              style: TextStyle(
+                                                                  color: Color(0xFF4B0082),
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 20)));
+                                                    }
+                                                  },
+                                                ),
                             ),
                           ),
                         )

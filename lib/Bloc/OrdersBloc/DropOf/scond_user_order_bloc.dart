@@ -65,7 +65,7 @@ class DropOfOrderBloc extends Bloc<DropOfOrderEvent, DropOfOrderState> {
 
   }
   void PasswordBlocMethod() {
-    Future<Data> response = CreateRepo.UserData(
+    Future<AdressUser> response = CreateRepo.UserData(
         Clintname, buildingName, Address, Phone, apartment, floorNumber,city,areas);
     response.then((value) {
       print(value.name);

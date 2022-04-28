@@ -5,13 +5,28 @@ import 'package:fastrak2/Models/Api/ApiPrice.dart';
 import 'package:fastrak2/Models/Api/CitiesApi.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
 import 'package:fastrak2/Models/Api/LastOrderApi.dart';
+import 'package:fastrak2/Models/Api/OrderList.dart';
 import 'package:fastrak2/Models/Api/PromoCodeApi.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/endpoint.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateRepo{
+  static Future<List<Order>> Orders(page) async {
+    print(page.toString() +'omniaaaaaaaaaaa@@@@@@@');
 
+      Dio.Response response = await dio().get(GETORDER, queryParameters: {'page': page,
+      });
+      print('beforeeeee');
+      print( response.data
+      );
+      List<Order> ord = [];
+    response.data['data']['data'][0].forEach((order) => ord.add(Order.fromJson(order)));
+      print('dddsdsdssdsddsdsds');
+      print(ord.first.id);
+      return ord;
+
+
+  }
   static Future<List<Cities>> UserCity() async {
      try{
 
@@ -30,14 +45,13 @@ class CreateRepo{
     print(e.message);
     print('gggggg');
 
-    }}
+    }}}
 
-  }
   static Future<List<Areas>> UserAreas() async {
     try{
 
       Dio.Response response = await dio().get(CITIES);
-      print('beforeeeee');
+      print('beforeeee e');
       print( response.data['data'][0]['cities'][0]['areas']
       );
       List<Areas> model = [];
@@ -54,7 +68,9 @@ class CreateRepo{
       }}
 
   }
-  static Future<Data> UserData(   Clintname,  Address,buildingName, Phone, apartment, floorNumber,city,areas) async {
+
+
+  static Future<AdressUser> UserData(   Clintname,  Address,buildingName, Phone, apartment, floorNumber,city,areas) async {
     String Egypt = '5dfbf055-6f48-487f-ad16-1e82b1ac11b9';
     String latitude = '29.983591';
     String longitude = '31.230393';
@@ -76,7 +92,7 @@ class CreateRepo{
         "apartment_number": apartment,
       });
       print('ggggggggggggggggg');
-      Data model = Data.fromJson(response.data['data']);
+    AdressUser model = AdressUser.fromJson(response.data['data']);
       print(model.phone);
 
       return model;
@@ -106,6 +122,7 @@ class CreateRepo{
         print(response.data.toString());
         Coast userr = Coast.fromJson(response.data['data']);
         print(userr.shippingFees.toString() + '2222222222222');
+        print(userr.totalShippingFees);
         print('hager ');
 
         print('safwat');

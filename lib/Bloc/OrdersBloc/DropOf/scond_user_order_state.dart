@@ -24,7 +24,7 @@ class ErrorSecondUserState extends DropOfOrderState{
 class LoadingSecondUser extends DropOfOrderState {
 }
 class SuccessSecondUser extends DropOfOrderState{
-  Data value;
+  AdressUser value;
   SuccessSecondUser(this.value){
     print('Ashhhhhhhhrakaaaaaaat');
   }

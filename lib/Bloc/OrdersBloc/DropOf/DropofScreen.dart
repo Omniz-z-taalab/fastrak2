@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SetAddressSecondUser extends StatefulWidget {
-  Data SecondUser;
+  AdressUser SecondUser;
 
   SetAddressSecondUser(this.SecondUser);
 

@@ -6,6 +6,8 @@ import 'package:fastrak2/Bloc/OrdersBloc/CreateRepo.dart';
 import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
 import 'package:fastrak2/Models/Api/CitiesApi.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
+import 'package:fastrak2/Models/Api/GetaddApi.dart';
+import 'package:fastrak2/Models/Api/OrderList.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:meta/meta.dart';
 
@@ -26,17 +28,22 @@ List<Areas> areasOnChange;
 Areas newArea;
 String city;
 String areas;
+int page = 1;
   CreateorderBloc() : super(CreateorderInitial()){
     add(CheckData());
+    add(listOrderEvent(this.page));
+    print('ashhhhhhhh');
   }
 
   @override
   Stream<CreateorderState> mapEventToState(CreateorderEvent event) {
     if (event is CheckData) {
       CitiesMethod();
-       // AreasMethod();
+      // AreasMethod();
     }
-
+    if (event is listOrderEvent) {
+        OrderList();
+    }
     if (event is SendAddress) {
       print(event.phone);
       Clintname = event.ClintName;
@@ -54,13 +61,13 @@ String areas;
 
       PasswordBlocMethod();
     }
-    if (event is onChange){
-      cityChange =event.city;
+    if (event is onChange) {
+      cityChange = event.city;
       areasOnChange = event.city.areas;
       print(cityChange.name);
       emit(Changestate(cityChange));
     }
-    if( event is onAreaChange){
+    if (event is onAreaChange) {
       newArea = event.are;
       print(newArea.name.toString() + 'xaaaaaaaaaax');
       emit(AreasOnChange(newArea));
@@ -68,7 +75,7 @@ String areas;
   }
 
   void PasswordBlocMethod() {
-    Future<Data> response = CreateRepo.UserData(
+    Future<AdressUser> response = CreateRepo.UserData(
         Clintname, buildingName, Address, Phone, apartment, floorNumber,city,areas);
     response.then((value) {
       print(value.name);
@@ -84,7 +91,7 @@ String areas;
   }
 
   void User() {
-    Future<Data> response = CreateRepo.UserData(
+    Future<AdressUser> response = CreateRepo.UserData(
         Clintname, buildingName, Address, Phone, apartment, floorNumber,city,areas);
     response.then((value) {
       print(value.name);
@@ -134,6 +141,26 @@ String areas;
        emit(AreaseSuccess(aree));
 
     }).catchError((onError){
+      if (onError is DioError) {
+        ApiError ctch = ApiError.fromJson(onError.response.data);
+        print('hhhhhhhhhhhhhhhhhhh');
+
+        print(ctch.errors.last.message);
+        emit(ErrorSecondUserState(ctch.errors.first.message));
+      }});
+  }
+  OrderList() {
+    print('nmnbnmnbnmbnbn');
+    Future<List<Order>> response = CreateRepo.Orders(page);
+    response.then((data) {
+      print('nmnbnmnbnmbnbn');
+      print(data.first.toString());
+      print('########################################');
+
+      // emit();
+
+    }).catchError((onError){
+      print(onError.toString());
       if (onError is DioError) {
         ApiError ctch = ApiError.fromJson(onError.response.data);
         print('hhhhhhhhhhhhhhhhhhh');

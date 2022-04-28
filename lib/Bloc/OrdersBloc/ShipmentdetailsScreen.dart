@@ -18,8 +18,8 @@ import 'package:intl/intl.dart';
 
 class Shipmentdetails extends StatefulWidget {
   String weight;
-  Data newuser;
-  Data newman;
+  AdressUser newuser;
+  AdressUser newman;
   String dropdownvalue;
 
   Shipmentdetails(this.weight, this.newuser, this.newman, this.dropdownvalue);
@@ -30,13 +30,14 @@ class Shipmentdetails extends StatefulWidget {
 
 class _ShipmentdetailsState extends State<Shipmentdetails> {
   final FormKey = GlobalKey<FormState>();
-  Data newnewMen;
-  Data newnewuser;
+  AdressUser newnewMen;
+  AdressUser newnewuser;
   bool isSwitched = false;
   var textValue = 'Amount to be collected';
   TextEditingController collectAmount = TextEditingController();
   bool status = false;
   String num = '.0';
+  String mony = '0';
   int integer;
   int eeeee;
   int index = 1;
@@ -89,7 +90,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
           eeeee = state.value.totalShippingFees;
           print(eeeee);
 
-           newCoast();
+          newCoast();
         }
         if (state is switchSuccess) {
           status = state.switchh;
@@ -111,17 +112,13 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
           integer = state.value;
           DateFormat dateFormat = new DateFormat.H();
           var open = dateFormat.parse("13:00");
-          String formattedDate =
-          DateFormat('kk').format(open);
+          String formattedDate = DateFormat('kk').format(open);
           int newopen = int.parse(formattedDate);
           ////////////////////////////////////////////////////////////////////
           var close = dateFormat.parse("04:00");
-          String formattedDateClose =
-          DateFormat('kk').format(close);
-          int DateTomorro =
-          int.parse(formattedDateClose);
-          print(DateTomorro.toString() +
-              'wwwssssssaaaaaaxxxxxx');
+          String formattedDateClose = DateFormat('kk').format(close);
+          int DateTomorro = int.parse(formattedDateClose);
+          print(DateTomorro.toString() + 'wwwssssssaaaaaaxxxxxx');
           if (dropdownValue == 'Today') {
             if (integer > newopen) {
               return Fluttertoast.showToast(
@@ -234,7 +231,8 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                             height: 7,
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(right: 270),
+                            padding: const EdgeInsets.only(
+                                right: 255, bottom: 5, left: 15),
                             child: Text(
                               "Delivery time",
                               style: TextStyle(color: Color(0xFF6B778D)),
@@ -254,7 +252,8 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                       height: 10,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 280),
+                      padding: const EdgeInsets.only(
+                          right: 265, bottom: 5, left: 15),
                       child: Text(
                         "Pick up date",
                         style: TextStyle(color: Color(0xFF6B778D)),
@@ -278,8 +277,8 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                             height: 10,
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(right: 280, bottom: 5),
+                            padding: const EdgeInsets.only(
+                                right: 265, bottom: 5, left: 15),
                             child: Text(
                               "Pick up time",
                               style: TextStyle(color: Color(0xFF6B778D)),
@@ -290,21 +289,22 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                           ),
                         ]),
                     Container(
-                      width: 380,
+                      width: 335,
+                      height: 45,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black12),
                           borderRadius: BorderRadius.circular(7)),
                       child: DateTimeFormField(
-                        decoration: const InputDecoration(
-                          hintStyle: TextStyle(color: Colors.black45),
-                          errorStyle: TextStyle(color: Colors.redAccent),
-                        ),
-                        mode: DateTimeFieldPickerMode.time,
-                        autovalidateMode: AutovalidateMode.always,
-                        onDateSelected: (DateTime value) {
-                          BlocProvider.of<ShipmentDetailsBloc>(context)
-                              .add(DateTimeEvent(value.hour));}
-                      ),
+                          decoration: const InputDecoration(
+                            hintStyle: TextStyle(color: Colors.black45),
+                            errorStyle: TextStyle(color: Colors.redAccent),
+                          ),
+                          mode: DateTimeFieldPickerMode.time,
+                          autovalidateMode: AutovalidateMode.always,
+                          onDateSelected: (DateTime value) {
+                            BlocProvider.of<ShipmentDetailsBloc>(context)
+                                .add(DateTimeEvent(value.hour));
+                          }),
                     ),
                     SizedBox(
                       height: 20,
@@ -410,9 +410,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                                           SizedBox(
                                             width: 115,
                                             child: TextFormField(
-                                              controller: status == true
-                                                  ? collectAmount
-                                                  :  0,
+                                              controller: collectAmount,
                                               maxLines: 1,
                                               keyboardType:
                                                   TextInputType.number,
@@ -639,11 +637,13 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                                     BlocProvider.of<ShipmentDetailsBloc>(
                                             context)
                                         .add(SendData(
-                                            collectAmount.text,
-                                            description.text,
-                                            widget.weight,
-                                            index));
+                                      collectAmount.text,
+                                      description.text,
+                                      widget.weight,
+                                      index,
+                                    ));
                                     print(index);
+                                    print(collectAmount);
                                     print('zzzzzzzzzzzzzzzz');
                                   }
                                 }),

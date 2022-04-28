@@ -8,8 +8,8 @@ class lastScreenInOrder extends StatefulWidget {
   String Down;
   int intt;
   String Sizee;
-  Data newnewuser;
-  Data newnewman;
+  AdressUser newnewuser;
+  AdressUser newnewman;
 
   lastScreenInOrder(this.shetbutton, this.number, this.newnewman, this.Drob,
       this.newnewuser, this.Down, this.intt, this.Sizee);
