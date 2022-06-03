@@ -7,28 +7,21 @@ import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/endpoint.dart';
 
 class GetAddressRepo{
-  static Future<GetAdressAPI> User() async {
+  static Future<List<UserAddress>> User() async {
 
-    try{
+
       Dio.Response response = await dio().get(GetAddress);
       print('ggggggggggggggggg');
-      print(response.data['data']['data'][0]);
-      GetAdressAPI model = GetAdressAPI.fromJson(response.data);
+      print(response.data['data']['data']);
+      List<UserAddress> model = [];
+      response.data['data']['data']
+          .forEach((user) => model.add(UserAddress.fromJson(user)));
       print('sdsdsdsdsdsdsdsd');
       return model;
 
-    }
-    on DioError catch (e) {
-      if (e.response != null) {
-        print(e.response.data);
-        print(e.message);
-        print('gggggg');
-
-      }
-    }
   }
 
-  static Future<UserAddress> UserInfo(   Clintname,  Address,buildingName, Phone, apartment, floorNumber,city,areas) async {
+  static Future<AdressUser> UserInfo(   Clintname,  Address,buildingName, Phone, apartment, floorNumber,city,areas) async {
     String Egypt = '5dfbf055-6f48-487f-ad16-1e82b1ac11b9';
     String latitude = '29.983591';
     String longitude = '31.230393';
@@ -50,8 +43,9 @@ class GetAddressRepo{
         "apartment_number": apartment,
       });
       print('ggggggggggggggggg');
-      UserAddress model = UserAddress.fromJson(response.data['data']);
+      AdressUser model = AdressUser.fromJson(response.data['data']);
       print(model.phone);
+      print(model.name + 'QQQQQQQQQQQQQQQQQQQQ');
 
       return model;
 

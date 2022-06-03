@@ -1,39 +1,31 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
+class LoadingOverlay {
+  OverlayEntry _overlay;
 
-class LoaadingRepo{
-ProgressDialog progressDialog;
-showProgress(BuildContext context, String message, bool isDismissible) async {
-  progressDialog = new ProgressDialog(context,
-      type: ProgressDialogType.Normal, isDismissible: isDismissible);
+  LoadingOverlay();
 
-  progressDialog.style(
+  void show(BuildContext context) {
+    if (_overlay == null) {
+      _overlay = OverlayEntry(
+        // replace with your own layout
+        builder: (context) => ColoredBox(
+          color: Color(0x80000000),
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+            ),
+          ),
+        ),
+      );
+      Overlay.of(context).insert(_overlay);
+    }
+  }
 
-      message: message,
-      borderRadius: 10.0,
-      backgroundColor: Colors.white,
-      progressWidget: Container(
-          padding: EdgeInsets.all(8.0),
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.white,
-            color: Colors.purple.shade800,
-          ),),
-
-      elevation: 10.0,
-      insetAnimCurve: Curves.easeInOut,
-      messageTextStyle: TextStyle(
-
-          color: Colors.purple.shade800, fontSize: 19.0, fontWeight: FontWeight.w600));
-  await progressDialog.show();
+  void hide() {
+    if (_overlay != null) {
+      _overlay.remove();
+      _overlay = null;
+    }
+  }
 }
-
-updateProgress(String message) {
-  progressDialog.update(message: message);
-}
-
-hideProgress() async {
-  if(progressDialog!=null)
-    await progressDialog.hide();
-}}

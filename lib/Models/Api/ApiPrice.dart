@@ -17,13 +17,13 @@ class ApiCollectAmount {
 }
 
 class Coast {
-  int moneyCollected;
-  int insuranceFees;
-  int shippingFees;
-  int moneyCollectedFees;
-  int vat;
-  int shippingFeesDiscount;
-  int totalShippingFees;
+  dynamic moneyCollected;
+  dynamic insuranceFees;
+  dynamic shippingFees;
+  dynamic moneyCollectedFees;
+  dynamic vat;
+  dynamic shippingFeesDiscount;
+  dynamic totalShippingFees;
 
   Coast(
       {this.moneyCollected,
@@ -35,13 +35,22 @@ class Coast {
         this.totalShippingFees});
 
   Coast.fromJson(Map<String, dynamic> json) {
+    print(json);
+    print(json['money_collected']);
+    print(json['total_shipping_fees']);
     moneyCollected = json['money_collected'];
+    print(json['money_collected']);
     insuranceFees = json['insurance_fees'];
+    print(json['insurance_fees']);
     shippingFees = json['shipping_fees'];
+    print(json['shipping_fees']);
     moneyCollectedFees = json['money_collected_fees'];
+    print(json['money_collected_fees']);
     vat = json['vat'];
     shippingFeesDiscount = json['shipping_fees_discount'];
     totalShippingFees = json['total_shipping_fees'];
+     print(totalShippingFees.toString() + 'yaaaaaraaaab');
+
   }
 
   Map<String, dynamic> toJson() {

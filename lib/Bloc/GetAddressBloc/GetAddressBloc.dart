@@ -26,18 +26,24 @@ class GetAddressBloc extends Bloc<GetAddressEvent, GetAddressState> {
   String name;
   GetAddressBloc() : super(InitialAddress()) {
     add(getEvent());
-    // add(startScreenEvent());
+    add(FirstStartAdd());
   }
 
   @override
   Stream<GetAddressState> mapEventToState(GetAddressEvent event) {
+    if(event is FirstStartAdd){
+      emit(LoadingLogin());
+      GetAdd();
+    }
     if(event is startScreenEvent){
+      emit(LoadingLogin());
       GetAdd();
     }
     // if (event is EditScreenEvent){
     //   GetAdd();
     // }
     if (event is getEvent) {
+      emit(LoadingLogin());
       CitiesMethod();
       print('ssssssssss');
     }
@@ -71,23 +77,23 @@ class GetAddressBloc extends Bloc<GetAddressEvent, GetAddressState> {
 
   GetAdd() {
     print('zaaaaaaaaaaaaaaaaaayed');
-    Future<GetAdressAPI> response = GetAddressRepo.User();
+    Future<List<UserAddress>> response = GetAddressRepo.User();
     response.then((value) {
       print('loooool');
-      print(value.data.data.first.name);
-       emit(SuccessAddressState(value));
-     });
-      // .catchError((onError) {
-    //   if (onError is DioError) {
-    //     ApiError ctch = ApiError.fromJson(onError.response.data);
-    //     print(ctch.errors.first.message);
-    //     // emit((ctch.errors.first.message));
-    //   }
-    // });
+      print(value.last.name);
+        emit(SuccessAddressState(value));
+     })
+      .catchError((onError) {
+      if (onError is DioError) {
+        ApiError ctch = ApiError.fromJson(onError.response.data);
+        print(ctch.errors.first.message);
+        // emit((ctch.errors.first.message));
+      }
+    });
   }
 
   void UserAd() {
-    Future<UserAddress> response = GetAddressRepo.UserInfo(
+    Future<AdressUser> response = GetAddressRepo.UserInfo(
         Clintname, buildingName, Address, Phone, apartment, floorNumber,city,areas);
     response.then((value) {
       print(value.name);
@@ -104,7 +110,6 @@ class GetAddressBloc extends Bloc<GetAddressEvent, GetAddressState> {
   CitiesMethod() {
     Future<List<Cities>> response = GetAddressRepo.UsersCity();
     response.then((data) {
-
       print('omniaaaZayeeeeeed');
       emit(SuccessAddState(data));
 
@@ -120,9 +125,7 @@ class GetAddressBloc extends Bloc<GetAddressEvent, GetAddressState> {
   AreasMethod() {
     Future<List<Areas>> response = GetAddressRepo.UserAreas();
     response.then((aree) {
-      // print(data.data.first.name.toString());
-      // print(data.data.first.cities.first.name);
-      // print(data.data.first.cities.first.areas.first.name.toString());
+
       print('ppppppp22p2p2p22p2p2p2p2p2p2p');
       print(aree.first.name.toString());
       print('########################################');

@@ -71,7 +71,7 @@ class _addUserAddressState extends State<addUserAddress> {
               print(areaa);
               if (state is SucessAdd) {
                 print('zzzzzzzzzzzzzzzz');
-                print(state.value.city.toString() +'sasaaaaaaaaaa');
+                // print(state.value.city.toString() +'sasaaaaaaaaaa');
                 // BlocProvider.of<GetAddressBloc>(context).add(startScreenEvent());
                 Navigator.pop(context);
 

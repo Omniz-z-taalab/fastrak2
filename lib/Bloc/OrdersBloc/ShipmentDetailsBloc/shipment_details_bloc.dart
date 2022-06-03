@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/CreateRepo.dart';
 import 'package:fastrak2/Models/Api/ApiPrice.dart';
 import 'package:fastrak2/Models/Api/Error.dart';
+import 'package:fastrak2/Models/Api/GetaddApi.dart';
 import 'package:fastrak2/Models/Api/LastOrderApi.dart';
 import 'package:fastrak2/Models/Api/PromoCodeApi.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
@@ -23,7 +24,7 @@ class ShipmentDetailsBloc
   String hasinsurance = "1";
   String weight ;
   String Discription ;
-  String Collect ;
+  dynamic Collect ;
   int State;
   int index ;
   int indexx ;
@@ -46,19 +47,23 @@ int value;
   Stream<ShipmentDetailsState> mapEventToState(ShipmentDetailsEvent event) {
     if (event is SendData) {
       indexx = event.index;
+      print(indexx.toString() + 'ssasssa');
       weight = event.weight;
       Collect = event.collectAmount;
       if(event.collectAmount == ''){
-        Collect = '0';
+        Collect = '1';
       }
       SipmentBlocMethod();
     }
     if (event is CheckCode) {
-
       Discription = event.description;
       Collect = event.collectAmount;
+      if(event.collectAmount == ''){
+        Collect = '0';
+      }
       promoCode = event.code;
       weight = event.weight;
+      indexx = event.index;
       PromoCodeMethod();
     }
     if (event is ChangeButton) {
@@ -66,8 +71,16 @@ int value;
       emit(ChangeButtonSuccess(State));
     }
     if(event is eveent){
-      pickupId = event.newuser.id;
-      dileveryId =event.newman.id;
+      // print(event.pickupfrom.id);
+      // print(event.newuser.id);
+      pickupId = event.pickupfrom.id;
+      if(event.pickupfrom.id == null){
+        pickupId = event.newuser.id;
+      }
+      dileveryId =event.Dropof.id;
+      if(event.Dropof.id == null){
+        dileveryId = event.newman.id;
+      }
       Discription = event.description;
       pickupOption = event.value;
       weight =event.weight;
@@ -104,8 +117,8 @@ int value;
       emit(CodeSuccess(value));
       emit(SuccessSipmentState(value, promoCode));
     }).catchError((onError) {
-        print(onError.response.data);
-        print(onError.message);
+      print(onError.response.data);
+      print(onError.message);
       print(onError.toString());
       if (onError is DioError) {
         ApiError ShipmentError = ApiError.fromJson(onError.response.data);
@@ -114,12 +127,11 @@ int value;
       }
     });
   }
-
   PromoCodeMethod() {
     print('22222222222222222222222');
-    print(Collect + weight + hasinsurance + type );
+    print(Collect + weight + hasinsurance + type + indexx.toString() );
     Future<PromoCodeApi> response = CreateRepo.Promo(
-        promoCode, type, index, hasinsurance, weight, Collect);
+        promoCode, type, indexx, hasinsurance, weight);
     response.then((promo) {
       print(type +
           index.toString() +

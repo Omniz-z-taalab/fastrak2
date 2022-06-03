@@ -1,9 +1,9 @@
 import 'package:fastrak2/Models/Api/CitiesApi.dart';
 
 class GetAddressEvent {}
-
+class FirstTime extends GetAddressEvent{}
 class getEvent extends GetAddressEvent {}
-
+class FirstStartAdd extends GetAddressEvent{}
 class startScreenEvent extends GetAddressEvent{
 }
 class EditScreenEvent extends GetAddressEvent{}

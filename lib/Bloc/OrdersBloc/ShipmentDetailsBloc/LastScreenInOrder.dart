@@ -1,5 +1,6 @@
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/shipment_details_bloc.dart';
 import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
+import 'package:fastrak2/Models/Api/GetaddApi.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,12 @@ class LastScreenInOrder extends StatefulWidget {
   bool isSwitched;
   int index;
   int integer;
-  int eeeee;
+  dynamic eeeee;
   int current;
   String dropdownValue;
   int value;
+  UserAddress Dropof;
+  UserAddress pickupfrom;
 
   LastScreenInOrder(
       this.isSwitched,
@@ -33,7 +36,10 @@ class LastScreenInOrder extends StatefulWidget {
       this.integer,
       this.eeeee,
       this.current,
-      this.dropdownValue,this.value);
+      this.dropdownValue,
+      this.value,
+      this.Dropof,
+      this.pickupfrom);
 
   State<LastScreenInOrder> createState() => _LastScreenInOrderState();
 }
@@ -41,24 +47,19 @@ class LastScreenInOrder extends StatefulWidget {
 class _LastScreenInOrderState extends State<LastScreenInOrder> {
   bool isCheck = false;
   int value = 0;
-
   @override
+   newAddress (){
+    if (widget.newman.address != null) {
+      Text(widget.newman.address);
+    } else if (widget.pickupfrom.address !=
+        null) {
+      Text(widget.pickupfrom.address);}
+  }
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.eeeee);
-    print(widget.current);
-    print('dksdkfkffkfkfkfk');
+    // print(widget.pickupfrom.address);
   }
-
-  //   print(widget.description);
-  //   print('1111111111111');
-  //   print(widget.collectAmount);
-  //   print('222222222222222');
-  //   print(widget.newuser.phone);
-  //   print('3333333333333');
-  //   print(widget.newman.address);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -301,14 +302,18 @@ class _LastScreenInOrderState extends State<LastScreenInOrder> {
                                 child: SizedBox(
                                   height: 1,
                                   child: Column(children: [
-                                    Text(
-                                      widget.newman.address,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(widget.newman.phone)
-                                  ]),
+                                    Text (widget.newman.address != null ?widget.newman.address
+              :widget.pickupfrom.address),
+
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(widget.newman.phone != null
+                                          ? widget.newman.phone
+                                          : widget.pickupfrom.phone)
+                                      // ]),
+                                    ]
+                                  ),
                                 ),
                               ),
                             ),
@@ -346,14 +351,17 @@ class _LastScreenInOrderState extends State<LastScreenInOrder> {
                                   child: SizedBox(
                                     height: 1,
                                     child: Column(children: [
-                                      Text(
-                                        widget.newuser.address,
-                                      ),
+                                      Text(widget.Dropof.address != null
+                                          ? widget.Dropof.address
+                                          : widget.newuser.address),
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Text(widget.newuser.phone)
+                                      Text(widget.Dropof.phone != null
+                                          ? widget.Dropof.phone
+                                          : widget.newuser.phone)
                                     ]),
+                                    // ]),
                                   ),
                                 ),
                               )),
@@ -754,12 +762,29 @@ class _LastScreenInOrderState extends State<LastScreenInOrder> {
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.CENTER,
                                       timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.yellow,
+                                      backgroundColor: Colors.amber,
                                       textColor: Colors.white,
                                       fontSize: 15.0);
                                 } else {
+                                  // print(widget.newuser.id);
                                   BlocProvider.of<ShipmentDetailsBloc>(context)
-                                      .add(eveent(widget.isSwitched,widget.weight,widget.DeliveryTime,widget.newman,widget.newuser,widget.collectAmount,widget.description,widget.index,widget.integer,widget.eeeee,widget.current,widget.dropdownValue,widget.value));}
+                                      .add(eveent(
+                                          widget.isSwitched,
+                                          widget.weight,
+                                          widget.DeliveryTime,
+                                          widget.newman,
+                                          widget.newuser,
+                                          widget.collectAmount,
+                                          widget.description,
+                                          widget.index,
+                                          widget.integer,
+                                          widget.eeeee,
+                                          widget.current,
+                                          widget.dropdownValue,
+                                          widget.value,
+                                          widget.Dropof,
+                                          widget.pickupfrom));
+                                }
                               }),
                         ),
                       )

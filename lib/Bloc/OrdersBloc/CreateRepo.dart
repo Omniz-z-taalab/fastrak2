@@ -107,32 +107,39 @@ class CreateRepo{
       }
     }
   }
- static Future<Coast>priceData( type, indexx, hasinsurance, weight, Collect, promoCode) async {
+  static Future<Coast>priceData( type, indexx, hasinsurance, weight, Collect, promoCode) async {
     print('qooooowowowowowowo');
-      Dio.Response response = await dio().get(SHIPMENTDETAILS,queryParameters: {
-        'type':type,
-        'delivery_time':indexx ,
-        'has_insurance': hasinsurance,
-        'weight': weight,
-        'money_collected': Collect,
-        'promocode': promoCode
-      });
-      print('zayed' + response.statusCode.toString());
-      if (response.statusCode == 200) {
-        print(response.data.toString());
-        Coast userr = Coast.fromJson(response.data['data']);
-        print(userr.shippingFees.toString() + '2222222222222');
-        print(userr.totalShippingFees);
-        print('hager ');
+    try{
+    Dio.Response response = await dio().get(SHIPMENTDETAILS,queryParameters: {
+      'type':type,
+      'delivery_time':indexx ,
+      'has_insurance': hasinsurance,
+      'weight': weight,
+      'money_collected': Collect,
+      'promocode': promoCode
+    });
+    print('zayed' + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print(response.data['data']);
+       Coast userr = Coast.fromJson(response.data['data']);
+      print('hager ');
 
-        print('safwat');
-        return userr;
+      return userr;
 
-      }
+    }}catch(e){
+      print(e.toString());
+      if(e is DioError){
+        ApiError ctch = ApiError.fromJson(e.response.data);
+        print(ctch.errors.first.message);
+      if (e.response != null) {
+        print(e.response.data);
+        print(e.message);
+        print('gggggg');}
+    }}
   }
-  static Future<PromoCodeApi> Promo(promoCode,type,deliverytime,hasinsurance,weight,moneycollected) async {
+  static Future<PromoCodeApi> Promo(promoCode, type, indexx, hasinsurance, weight) async {
 print(promoCode.toString());
-print(type + deliverytime + moneycollected + promoCode);
+print(type   + promoCode);
 
     print('omnia');
       Dio.Response response = await dio().get(PROMOCODE,queryParameters: {'promocode': promoCode});
@@ -141,7 +148,9 @@ print(type + deliverytime + moneycollected + promoCode);
         return userr;
 
   }
-  static Future<LastOrderApi>Last(type,pickupId,dileveryId,weight,hasinsurance,numberofpice,payment,Discription,Collect,ispospayment,pickupOption,readytime,hasfragile,Index) async {
+  static Future<LastOrderApi>Last(type,pickupId,dileveryId,weight,hasinsurance,
+      numberofpice,payment,Discription,Collect,ispospayment,pickupOption,
+      readytime,hasfragile,Index) async {
     try{
       print('deliveryTime' + '$Index' + 'type' + '$type' + 'pickup' + '$pickupId' + 'deliver' + '$dileveryId' 'weight' '$weight' 'hasinsurance' '$hasinsurance' 'numberofpice' '$numberofpice' 'payment' '$payment' 'Discription' '$Discription' 'Collect' '$Collect' 'ispospayment' ' $ispospayment' 'pickupOption' '$pickupOption' 'readytime' '$readytime'
       'hasfragile' '$hasfragile' 'Index' '$Index');

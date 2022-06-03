@@ -33,7 +33,7 @@ class AdressUser {
   Null landlineNumber;
   Coountry country;
   City city;
-  Area area;
+  Areaa area;
 
   AdressUser(
       {this.id,
@@ -69,7 +69,7 @@ class AdressUser {
     country =
     json['country'] != null ? new Coountry.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    area = json['area'] != null ? new Area.fromJson(json['area']) : null;
+    area = json['area'] != null ? new Areaa.fromJson(json['area']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -149,13 +149,13 @@ class City {
   }
 }
 
-class Area {
+class Areaa {
   String id;
   String name;
 
-  Area({this.id, this.name});
+  Areaa({this.id, this.name});
 
-  Area.fromJson(Map<String, dynamic> json) {
+  Areaa.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }

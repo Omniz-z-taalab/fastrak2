@@ -3,6 +3,7 @@ import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/LastScreenInOrder.d
 import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/shipment_details_bloc.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/lastScreenInOrder.dart';
 import 'package:fastrak2/Bloc/OrdersBloc/PromoCodeBloc/promo_code_bloc.dart';
+import 'package:fastrak2/Models/Api/GetaddApi.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,11 @@ class ShipmentCostScreen extends StatefulWidget {
   String DeliveryTime;
 bool isSwitched;
 int index;
-int eeeee;
+dynamic eeeee;
 int value;
+  UserAddress Dropof;
+  UserAddress pickupfrom;
+
   ShipmentCostScreen(
       this.num,
       this.newuser,
@@ -32,7 +36,7 @@ int value;
       this.collectAmount,
       this.description,
       this.integer,
-      this.DeliveryTime,this.isSwitched,this.index,this.eeeee,this.value);
+      this.DeliveryTime,this.isSwitched,this.index,this.eeeee,this.value,this.Dropof,this.pickupfrom);
 
   @override
   State<ShipmentCostScreen> createState() => _ShipmentCostScreenState();
@@ -52,35 +56,35 @@ String CachPickup ='Cash on Pickup';
   void initState() {
     // TODO: implement initState
     super.initState();
-      print(widget.eeeee);
-      print(widget.integer);
-      print('cmmvmnbnbnvmcmmccmcmcmc');
-    print(widget.num);
-    print('aaaaaaaaaaaa');
-    print(widget.newman);
-    print(widget.newman.address + widget.newman.phone);
-    print('bbbbbbbbbbbb');
-    print(widget.DeliveryTime);
-    print('ccccccccccccc');
-
-    print(widget.dropdownValue);
-    print('dddddddddddddd');
-
-    print(widget.weight);
-    print('eeeeeeeeeeee');
-
-    print(widget.newuser);
-    print('fffffffffffffff');
-
-    print(widget.collectAmount);
-    print('gggggggggggggg');
-
-    print(widget.description);
-    print('hhhhhhhhhhhhhhhhs');
-
-    print(widget.integer);
-
-    print('mnasss');
+    //   print(widget.eeeee);
+    //   print(widget.integer);
+    //   print('cmmvmnbnbnvmcmmccmcmcmc');
+    // print(widget.num);
+    // print('aaaaaaaaaaaa');
+    // print(widget.newman);
+    // print(widget.newman.address + widget.newman.phone);
+    // print('bbbbbbbbbbbb');
+    // print(widget.DeliveryTime);
+    // print('ccccccccccccc');
+    //
+    // print(widget.dropdownValue);
+    // print('dddddddddddddd');
+    //
+    // print(widget.weight);
+    // print('eeeeeeeeeeee');
+    //
+    // print(widget.newuser);
+    // print('fffffffffffffff');
+    //
+    // print(widget.collectAmount);
+    // print('gggggggggggggg');
+    //
+    // print(widget.description);
+    // print('hhhhhhhhhhhhhhhhs');
+    //
+    // print(widget.integer);
+    //
+    // print('mnasss');
   }
 
   @override
@@ -144,13 +148,13 @@ String CachPickup ='Cash on Pickup';
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.only(top: 15.0,bottom: 5,left: 20),
                       child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           "Shipment Cost",
                           style: TextStyle(
-                              color: Color(0xFF6B778D),
+                              color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
@@ -160,7 +164,7 @@ String CachPickup ='Cash on Pickup';
                 ),
                 Row(children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 5),
+                    padding: const EdgeInsets.only(left: 20.0, right: 5),
                     child: SizedBox(
                       width: 80.0,
                       height: 4.0,
@@ -187,21 +191,21 @@ String CachPickup ='Cash on Pickup';
                   height: 30,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 15),
+                  padding: EdgeInsets.only(left: 20),
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           "Delivery fee",
-                          style: TextStyle(color: Colors.black38, fontSize: 15),
+                          style: TextStyle(color: Colors.black38, fontSize: 12),
                         ),
                         SizedBox(
-                          width: 163,
+                          width: 170,
                         ),
                         Text(
                           "Discount code",
-                          style: TextStyle(color: Colors.black38, fontSize: 15),
+                          style: TextStyle(color: Colors.black38, fontSize: 12),
                         ),
                       ]),
                 ),
@@ -209,30 +213,33 @@ String CachPickup ='Cash on Pickup';
                   height: 5,
                 ),
                 Row(children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          left: 100, right: 60, top: 25, bottom: 25),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.purple.shade100.withOpacity(.03),
-                                spreadRadius: 3),
-                          ]),
-                      child: Text(
-                        '${widget.eeeee.toString() + widget.num}'
-                        'EGP',
-                        style:
-                            TextStyle(fontSize: 20, color: Color(0xFF4B0082)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 70, right: 70, top: 25, bottom: 25),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(.010),
+                                  spreadRadius: 4),
+                            ]),
+                        child: Text(
+                          '${widget.eeeee.toString()}'
+                          'EGP',
+                          style:
+                              TextStyle(fontSize: 20, color: Color(0xFF4B0082)),
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 5,
-                    width: 20,
+                    width: 15,
                   ),
                   InkWell(
                       child: Container(
@@ -247,9 +254,8 @@ String CachPickup ='Cash on Pickup';
                             borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
-                                  color:
-                                      Colors.purple.shade100.withOpacity(.03),
-                                  spreadRadius: 3),
+                                  color: Colors.black.withOpacity(.010),
+                                  spreadRadius: 4),
                             ]),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
@@ -275,7 +281,9 @@ String CachPickup ='Cash on Pickup';
                                     ),
                                     Container(
                                       height: 200,
+
                                       decoration: BoxDecoration(
+
                                         border: Border(
                                             bottom: BorderSide(
                                                 color: Colors.grey.shade300)),
@@ -405,12 +413,6 @@ String CachPickup ='Cash on Pickup';
                                                                   Colors.white),
                                                         ),
                                                         onPressed: () {
-                                                          print(code.text +
-                                                              widget.weight +
-                                                              widget
-                                                                  .description +
-                                                              widget
-                                                                  .collectAmount,);
                                                           BlocProvider.of<
                                                                       ShipmentDetailsBloc>(
                                                                   context)
@@ -458,6 +460,13 @@ String CachPickup ='Cash on Pickup';
                                   ]),
                               child: Container(
                                 decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.shade500.withOpacity(.05),
+                                            spreadRadius: 6),
+                                      ],
+
                                   borderRadius: BorderRadius.circular(7),
                                   border: Border.all(
                                       color: current == 1
@@ -500,16 +509,15 @@ String CachPickup ='Cash on Pickup';
                               padding: const EdgeInsets.all(15.0),
                               child: Container(
                                 height: 60,
-                                decoration: BoxDecoration(
+                                  decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7),
-                                    // border: Border.all(
-                                    //     color: Color(0xFF4B0082), width: 1),
+
+                                    color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
-                                          color: Colors.purple.shade100
-                                              .withOpacity(.03),
-                                          spreadRadius: 3),
-                                    ]),
+                                          color: Colors.grey.shade500.withOpacity(.05),
+                                          spreadRadius: 6),
+                                    ],),
                                 child: Container(
                                   // color: current == 0 ? Colors.red : Colors.blue,
                                   decoration: BoxDecoration(
@@ -622,7 +630,7 @@ String CachPickup ='Cash on Pickup';
                                         widget.newuser,
                                         widget.collectAmount,
                                         widget.description,
-                                        widget.index,widget.integer,widget.eeeee,current,widget.dropdownValue,widget.value
+                                        widget.index,widget.integer,widget.eeeee,current,widget.dropdownValue,widget.value,widget.Dropof,widget.pickupfrom
                                       )));
                               }
                             ),

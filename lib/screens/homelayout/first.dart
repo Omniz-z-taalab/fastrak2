@@ -117,7 +117,7 @@ class _HomeorderState extends State<Homeorder>
                   children: [
                     new Container(
                       padding:
-                          const EdgeInsets.only(left: 15, top: 30, right: 15),
+                          const EdgeInsets.only(left: 30, top: 30, right: 15),
                       child: Text(
                         'Hello $firstName !',
                         style: TextStyle(
@@ -127,7 +127,7 @@ class _HomeorderState extends State<Homeorder>
                     Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 15.0, top: 10),
+                          padding: const EdgeInsets.only(left: 30.0, top: 10),
                           child: SizedBox(
                             width: 70.0,
                             height: 5.0,
@@ -166,7 +166,7 @@ class _HomeorderState extends State<Homeorder>
                         ),
                         borderRadius: BorderRadius.circular(10)),
                     child: Container(
-                      width: 360,
+                      width: 340,
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -186,7 +186,7 @@ class _HomeorderState extends State<Homeorder>
                         children: <Widget>[
                           // Sign In Button
                           Container(
-                            width: 174,
+                            width: 164,
                             height: 40,
                             child: new FlatButton(
                               shape: RoundedRectangleBorder(
@@ -210,7 +210,7 @@ class _HomeorderState extends State<Homeorder>
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: _currentIndex == 1
-                                      ? Color(0xFF4B0082)
+                                      ? Colors.black38
                                       : Colors.white,
                                 ),
                               ),
@@ -246,7 +246,7 @@ class _HomeorderState extends State<Homeorder>
                                       fontSize: 12,
                                       color: _currentIndex == 1
                                           ? Colors.white
-                                          : Color(0xFF4B0082),
+                                          : Colors.black38,
                                       // Color(0xFF6B778D)),
                                     ),
                                   ),
@@ -271,18 +271,21 @@ class _HomeorderState extends State<Homeorder>
                         Column(children: [
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 15.0, right: 215),
-                            child: Text(
-                              'Shipment Average Weight',
-                              style: TextStyle(
-                                  color: Color(0xFF6B778D),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
+                                const EdgeInsets.only(left: 30.0,),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Shipment Average Weight',
+                                style: TextStyle(
+                                    color: Color(0xFF6B778D),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
                           new Padding(
                               padding: EdgeInsets.only(
-                                  left: 15, right: 15, top: 50, bottom: 50),
+                                  left: 15, right: 15, top: 60, bottom: 60),
                               child: Image.asset(
                                 'images/weight.png',
                                 width: 200,
@@ -291,14 +294,14 @@ class _HomeorderState extends State<Homeorder>
                           Padding(
                             padding: EdgeInsets.only(right: 15, left: 15),
                             child: Container(
-                              width: 380,
+                              width: 350,
                               decoration: BoxDecoration(
                                   border:
                                       Border.all(color: Color(0xFF6B778D80)),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10),
+                                    left: 15.0, right: 15),
                                 child: DropdownButton(
                                   isExpanded: true,
                                   style: TextStyle(
@@ -327,12 +330,12 @@ class _HomeorderState extends State<Homeorder>
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              width: 380,
+                              width: 350,
                               height: 50,
                               child: TextButton(
                                 style: TextButton.styleFrom(
                                   padding:
-                                      EdgeInsets.only(left: 15.0, right: 15.0),
+                                      EdgeInsets.only(left: 30.0, right: 30.0),
                                   primary: Colors.black,
                                   textStyle: const TextStyle(fontSize: 20),
                                   backgroundColor: Color(0xFF4B0082),
@@ -364,8 +367,8 @@ class _HomeorderState extends State<Homeorder>
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               padding: EdgeInsets.only(
-                                left: 10,
-                                right: 10,
+                                left: 30,
+                                right: 30,
                               ),
                               decoration: BoxDecoration(boxShadow: [
                                 BoxShadow(

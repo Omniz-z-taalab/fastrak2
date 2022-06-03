@@ -4,9 +4,8 @@ part of 'shipment_details_bloc.dart';
  class ShipmentDetailsEvent {}
 
  class SendData extends ShipmentDetailsEvent{
- String collectAmount ;
+ dynamic collectAmount ;
  String description;
-  // String DeliveryTime;
  String weight;
  int index;
  SendData(this.collectAmount,this.description,this.weight,this.index,){
@@ -15,7 +14,7 @@ part of 'shipment_details_bloc.dart';
  }}
 class CheckCode extends ShipmentDetailsEvent{
  String code;
- String collectAmount;
+ dynamic collectAmount;
  String description;
  // String DeliveryTime;
  String weight;
@@ -44,15 +43,18 @@ class eveent extends ShipmentDetailsEvent{
  String DeliveryTime;
  AdressUser newman;
  AdressUser newuser;
- String collectAmount = '0';
+ dynamic collectAmount = '0';
  String description;
  bool isSwitched;
  int index;
  int integer;
- int eeeee;
+ dynamic eeeee;
  int current;
  String dropdownValue;
  int value;
+ UserAddress Dropof;
+ UserAddress pickupfrom;
+
  eveent(
      this.isSwitched,
      this.weight,
@@ -65,8 +67,8 @@ class eveent extends ShipmentDetailsEvent{
      this.integer,
      this.eeeee,
      this.current,
-     this.dropdownValue,this.value){
-  print('${isSwitched}+ ${weight}+$DeliveryTime+$newman+$newuser+$collectAmount+$description+$index+$integer+$eeeee+$current+$dropdownValue');
+     this.dropdownValue,this.value,this.Dropof,this.pickupfrom){
+  print('${isSwitched}+ ${weight}+$DeliveryTime+$newman+$newuser+$collectAmount+$description+$index+$integer+$eeeee+$current+$dropdownValue + ${Dropof.id} = ${pickupfrom.id}');
   print('cccccccccccccccccccc');
  }
 }

@@ -10,11 +10,16 @@ class nesstate extends GetAddressState{
   }
 }
 
+class LoadingLogin extends GetAddressState {
+  LoadingLogin();
+}
+
+
 class InitialAddress extends GetAddressState{}
 
 class SucessAdd extends GetAddressState{
 
-  UserAddress value;
+  AdressUser value;
   SucessAdd(this.value){
     print(value.address.toString() + 'qwerrtttt');
   }
@@ -45,9 +50,9 @@ class AreasOnchange extends GetAddressState{
   AreasOnchange(this.newArea);
 }
 class SuccessAddressState extends GetAddressState{
-  GetAdressAPI value;
+  List<UserAddress> value;
   SuccessAddressState(this.value){
-    print(value.data.data.first.name);
+    print(value);
     print('caaaaaar');
   }
 }

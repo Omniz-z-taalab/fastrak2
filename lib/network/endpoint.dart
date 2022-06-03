@@ -8,4 +8,4 @@ const SHIPMENTDETAILS = '/v1/user/app/order/actions/preview';
 const PROMOCODE = '/v1/user/app/order/actions/verify-coupon';
 const CITIES = '/v1/geography/countries';
 const DoneOrder = '/v1/user/app/order';
-const GetAddress = '/v1/address?page=1';
+const GetAddress = '/v1/address';

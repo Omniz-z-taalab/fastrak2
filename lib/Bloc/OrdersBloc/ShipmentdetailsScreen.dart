@@ -8,6 +8,7 @@ import 'package:fastrak2/Bloc/OrdersBloc/ShipmentDetailsBloc/shipment_details_bl
 import 'package:fastrak2/Bloc/passwordBloc/Password%20State.dart';
 import 'package:fastrak2/Dio/Diohelper.dart';
 import 'package:fastrak2/Models/Api/ApiPrice.dart';
+import 'package:fastrak2/Models/Api/GetaddApi.dart';
 import 'package:fastrak2/Models/Api/SetAddress.dart';
 import 'package:fastrak2/network/ImagesScreen.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,9 @@ class Shipmentdetails extends StatefulWidget {
   AdressUser newuser;
   AdressUser newman;
   String dropdownvalue;
-
-  Shipmentdetails(this.weight, this.newuser, this.newman, this.dropdownvalue);
+UserAddress pickupfrom;
+UserAddress Dropof;
+  Shipmentdetails(this.weight, this.newuser, this.newman, this.dropdownvalue,this.pickupfrom,this.Dropof);
 
   @override
   State<Shipmentdetails> createState() => _ShipmentdetailsState();
@@ -39,7 +41,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
   String num = '.0';
   String mony = '0';
   int integer;
-  int eeeee;
+  dynamic eeeee;
   int index = 1;
   var time;
   int value = 1;
@@ -64,7 +66,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                 isSwitched,
                 index,
                 eeeee,
-                value)));
+                value,widget.Dropof,widget.pickupfrom)));
 
     print('?????????????????????????????');
     print(result.shippingFees);
@@ -74,8 +76,9 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('aaaaaaaaaaaaaaaaa' + widget.dropdownvalue.toString());
-    print(widget.newman.city.id);
+
+     print('aaaaaaaaaaaaaaaaa' + widget.dropdownvalue.toString());
+    // print(widget.newman.city.id);
   }
 
   @override
@@ -179,13 +182,13 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.only(top: 15.0,left: 15 ,bottom: 10),
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
                               "Shipment Details",
                               style: TextStyle(
-                                  color: Color(0xFF6B778D),
+                                  color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -220,8 +223,8 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                     ]),
                     Container(
                       padding: EdgeInsets.only(
-                          left: 20, right: 20, top: 50, bottom: 50),
-                      child: Image.asset(ShipmentDetails),
+                          left: 30, right: 30, top: 30, bottom: 30),
+                      child: Image.asset(ShipmentDetails,width: 150,),
                     ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +235,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                right: 255, bottom: 5, left: 15),
+                                right: 285, bottom: 5, left: 15),
                             child: Text(
                               "Delivery time",
                               style: TextStyle(color: Color(0xFF6B778D)),
@@ -241,7 +244,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                         ]),
                     Padding(
                       padding:
-                          const EdgeInsets.only(left: 12.0, right: 12, top: 5),
+                          const EdgeInsets.only(left: 15.0, right: 12, top: 5),
                       child: SizedBox(
                         height: 45,
                         width: 360,
@@ -253,7 +256,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          right: 265, bottom: 5, left: 15),
+                          right: 285, bottom: 5, left: 15),
                       child: Text(
                         "Pick up date",
                         style: TextStyle(color: Color(0xFF6B778D)),
@@ -261,10 +264,10 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(left: 12.0, right: 12, top: 5),
+                          const EdgeInsets.only(left: 15.0, right: 12, top: 5),
                       child: SizedBox(
                           height: 45,
-                          width: 370,
+                          width: 360,
                           child: Container(
                             child: _hintDown(),
                           )),
@@ -278,7 +281,7 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                right: 265, bottom: 5, left: 15),
+                                right: 285, bottom: 5, left: 15),
                             child: Text(
                               "Pick up time",
                               style: TextStyle(color: Color(0xFF6B778D)),
@@ -289,16 +292,24 @@ class _ShipmentdetailsState extends State<Shipmentdetails> {
                           ),
                         ]),
                     Container(
-                      width: 335,
+                      width: 360,
                       height: 45,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black12),
                           borderRadius: BorderRadius.circular(7)),
                       child: DateTimeFormField(
                           decoration: const InputDecoration(
+                            hintText: 'Select Time',
+                            border: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.black45),
-                            errorStyle: TextStyle(color: Colors.redAccent),
+                             errorStyle: TextStyle(color: Colors.red),
                           ),
+                          validator: (value) {
+                            if (value == null ) {
+                              return " field is required";
+                            }
+                            return null;
+                          },
                           mode: DateTimeFieldPickerMode.time,
                           autovalidateMode: AutovalidateMode.always,
                           onDateSelected: (DateTime value) {
